@@ -1,12 +1,14 @@
 .button-add {
-    border: 1px solid #fff;
-    padding: 14px 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
     background-color: transparent;
-    font-size: 22px;
-    line-height: 1;
-    color: #fff;
     height: 50px;
+    width: 150px;
     position: absolute;
+    margin: 0;
+    padding: 0;
     right: 0;
 }
 

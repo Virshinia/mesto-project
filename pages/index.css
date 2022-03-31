@@ -17,3 +17,5 @@
 @import url(../blocks/location/__info/location__info.css);
 @import url(../blocks/location/__title/location__title.css);
 @import url(../blocks/like-icon/like-icon.css);
+@import url(../blocks/like-icon/_active/like-icon_active.css);
+@import url(../blocks/footer/footer.css);
