@@ -1,0 +1,17 @@
+.button-add {
+    border: 1px solid #fff;
+    padding: 14px 64px;
+    background-color: transparent;
+    font-size: 22px;
+    line-height: 1;
+    color: #fff;
+    height: 50px;
+    position: absolute;
+    right: 0;
+}
+
+.button-add:hover {
+    cursor: pointer;
+    opacity: .6;
+    transition: opacity 0.5s ease-out;
+}

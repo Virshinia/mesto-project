@@ -1,0 +1,14 @@
+.button-edit {
+    background-color: transparent;
+    border: none;
+    grid-area: button-edit;
+    margin: 0;
+    padding: 0;
+    align-self: end;
+}
+
+.button-edit:hover {
+    cursor: pointer;
+    opacity: .6;
+    transition: opacity 0.5s ease-out;
+}
