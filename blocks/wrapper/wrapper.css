@@ -3,3 +3,9 @@
     padding: 45px 0 65px;
     font-family: 'Inter', Arial, sans-serif;
 }
+
+@media screen and (max-width: 768px) {
+    .wrapper {
+        padding: 28px 0 36px;
+    }
+}

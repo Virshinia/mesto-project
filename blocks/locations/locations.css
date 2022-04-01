@@ -5,3 +5,10 @@
     gap: 20px 17px;
     padding-top: 51px;
 }
+
+
+@media screen and (max-width: 768px) {
+    .locations  {
+        padding-top: 36px;
+    }
+}

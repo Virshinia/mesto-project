@@ -4,3 +4,17 @@
     line-height: 22px;
     padding-top: 67px
 }
+
+@media screen and (max-width: 768px) {
+    .footer {
+        padding-top: 48px
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .footer {
+        font-size: 14px;
+    }
+}
+
+

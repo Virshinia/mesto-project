@@ -14,3 +14,10 @@
     opacity: .6;
     transition: opacity 0.5s ease-out;
 }
+
+@media screen and (max-width: 768px) {
+    .button-edit {
+        width: 18px;
+        height: 18px;
+    }
+}

@@ -6,3 +6,9 @@
     grid-area: profile-info-name;
     align-self: end;
 }
+
+@media screen and (max-width: 768px) {
+    .profile-info__name  {
+        font-size: 27px;
+    }
+}

@@ -8,3 +8,18 @@
     gap: 5px 18px;
     padding-left: 30px;
 }
+
+@media screen and (max-width: 768px) {
+    .profile-info {
+        grid-template-columns: repeat(3, minmax(18px, auto));
+        grid-template-rows: 53px 24px;
+        grid-template-areas:
+            ". profile-info-name button-edit"
+            ". profile-info-description .";
+        text-align: center;
+        padding-left: 0;
+        gap: 5px 10px;
+        margin-bottom: 36px;
+
+    }
+}

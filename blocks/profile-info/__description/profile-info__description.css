@@ -6,3 +6,9 @@
     align-self: end;
     grid-area: profile-info-description;
 }
+
+@media screen and (max-width: 768px) {
+    .profile-info__description  {
+        font-size: 14px;
+    }
+}
