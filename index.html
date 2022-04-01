@@ -78,12 +78,22 @@
         <article class="location">
             <img class="location__photo" src="images/karachayevsk.jpg" alt="Карачаевск">
             <div class="location__info">
-                <h2 class="location__title">Карачаево-Ч..</h2>
+                <h2 class="location__title">Карачаево-Черкессия</h2>
                 <div class="like-icon"></div>
             </div>
         </article>
     </section>
     <footer class="footer">© 2020 Mesto Russia</footer>
+    <div class="popup popup_opened">
+        <form class="popup__container">
+            <h2 class="popup__heading">Редактировать профиль</h2>
+            <fieldset class="popup__input-container">
+                <input type="text" class="popup__item" id="name" placeholder="Жак-Ив Кусто">
+                <input type="text" class="popup__item" id="description" placeholder="Исследователь океана">
+            </fieldset>
+            <button class="popup__button">Сохранить</button>
+        </form>
+    </div>
 </main>
 </body>
 </html>

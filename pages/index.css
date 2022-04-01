@@ -19,3 +19,9 @@
 @import url(../blocks/like-icon/like-icon.css);
 @import url(../blocks/like-icon/_active/like-icon_active.css);
 @import url(../blocks/footer/footer.css);
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/popup/__container/popup__container.css);
+@import url(../blocks/popup/__heading/popup__heading.css);
+@import url(../blocks/popup/__input-container/popup__input-container.css);
+@import url(../blocks/popup/__item/popup__item.css);
