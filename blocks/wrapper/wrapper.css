@@ -1,4 +1,6 @@
 .wrapper {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     background-color: #000;
     padding: 45px 0 65px;
     font-family: 'Inter', Arial, sans-serif;
