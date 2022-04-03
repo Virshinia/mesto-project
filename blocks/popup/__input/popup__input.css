@@ -4,8 +4,13 @@
     width: 100%;
     min-height: 27px;
     margin-top: 30px;
+    padding: 0;
 }
 
+.popup__input::placeholder, .popup__input::-webkit-input-placeholder, .popup__input::-moz-placeholder, .popup__input::-ms-input-placeholder {
+    opacity: 1;
+    color: #000;
+}
 .popup__input:first-child{
     margin-top: 0;
 }
