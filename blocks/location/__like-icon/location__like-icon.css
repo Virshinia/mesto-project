@@ -1,10 +1,12 @@
 .like-icon {
-    background-image: url("../../images/like-icon.svg");
+    background-image: url("../../../images/like-icon.svg");
     width: 22px;
     height: 19px;
     background-repeat: no-repeat;
     background-position: center center;
     flex-shrink: 0;
+    background-color: transparent;
+    border: none;
 }
 
 
