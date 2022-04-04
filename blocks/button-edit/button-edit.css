@@ -7,6 +7,10 @@
     align-self: end;
     width: 24px;
     height: 24px;
+    background-image: url("../../images/edit-button.svg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
 }
 
 .button-edit:hover {
