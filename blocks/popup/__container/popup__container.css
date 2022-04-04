@@ -2,8 +2,14 @@
     background-color: #fff;
     top: 195px;
     margin: 0 auto;
-    width: 430px;
+    max-width: 430px;
     border-radius: 10px;
     padding: 34px 36px 37px;
     box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+    .popup__container  {
+        padding: 28px 22px 25px;
+    }
 }

@@ -1,3 +1,9 @@
 .popup__wrapper {
     position: relative;
 }
+
+@media screen and (max-width: 768px) {
+    .popup__wrapper  {
+        padding: 0 19px;
+    }
+}
