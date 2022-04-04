@@ -14,14 +14,14 @@
     </header>
     <main class="content">
     <section class="profile">
-        <img class="profile-photo" src="images/avatar.jpg" alt="фото профиля">
-        <div class="profile-info">
-            <h1 class="profile-info__name">Жак-Ив Кусто</h1>
-            <p class="profile-info__description">Исследователь океана</p>
-            <button class="button-edit" name="edit">
+        <img class="profile__photo" src="images/avatar.jpg" alt="фото профиля">
+        <div class="profile__info">
+            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <p class="profile__description">Исследователь океана</p>
+            <button class="profile__button-edit" aria-label="редактировать" name="edit" type="button">
             </button>
         </div>
-        <button class="button-add" name="add"></button>
+        <button class="button-add" aria-label="добавить" name="add" type="button"></button>
     </section>
     <section class="locations">
         <article class="location">
@@ -77,7 +77,7 @@
                     <input type="text" class="popup__input" id="name" placeholder="Жак-Ив Кусто">
                     <input type="text" class="popup__input" id="description" placeholder="Исследователь океана">
                 </fieldset>
-                <button class="popup__submit-button">Сохранить</button>
+                <button class="popup__submit-button" type="submit">Сохранить</button>
             </form>
         </div>
     </div>
