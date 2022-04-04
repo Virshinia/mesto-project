@@ -2,12 +2,15 @@
     color: #545454;
     font-size: 18px;
     line-height: 22px;
-    padding-top: 67px
+    padding: 67px 19px 0;
+    max-width: 918px;
+    box-sizing: border-box;
+    margin: 0 auto;
 }
 
 @media screen and (max-width: 768px) {
     .footer {
-        padding-top: 48px
+        padding: 48px 19px 0;
     }
 }
 
