@@ -1,14 +1,14 @@
 .profile__name {
     font-size: 42px;
-    line-height: 0.75;
+    line-height: 48px;
     font-weight: 500;
     margin: 0;
     grid-area: profile-info-name;
-    align-self: end;
 }
 
 @media screen and (max-width: 768px) {
     .profile__name  {
         font-size: 27px;
+        line-height: 33px;
     }
 }
