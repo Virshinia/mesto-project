@@ -23,49 +23,8 @@
             <button class="profile__button-add" aria-label="добавить" name="add" type="button"></button>
         </section>
         <section class="locations">
-            <article class="location">
-                <img class="location__photo" src="images/karachayevsk.jpg" alt="Карачаевск">
-                <div class="location__info">
-                    <h2 class="location__title">Карачаевск</h2>
-                    <button class="location__like-icon" type="button"></button>
-                </div>
-            </article>
-            <article class="location">
-                <img class="location__photo" src="images/elbrus.jpg" alt="Гора Эльбрус">
-                <div class="location__info">
-                    <h2 class="location__title">Гора Эльбрус</h2>
-                    <button class="location__like-icon" type="button"></button>
-                </div>
-            </article>
-            <article class="location">
-                <img class="location__photo" src="images/dombai.jpg" alt="Домбай">
-                <div class="location__info">
-                    <h2 class="location__title">Домбай</h2>
-                    <button class="location__like-icon" type="button"></button>
-                </div>
-            </article>
-            <article class="location">
-                <img class="location__photo" src="images/elbrus.jpg" alt="Гора Эльбрус">
-                <div class="location__info">
-                    <h2 class="location__title">Гора Эльбрус</h2>
-                    <button class="location__like-icon" type="button"></button>
-                </div>
-            </article>
-            <article class="location">
-                <img class="location__photo" src="images/dombai.jpg" alt="Домбай">
-                <div class="location__info">
-                    <h2 class="location__title">Домбай</h2>
-                    <button class="location__like-icon" type="button"></button>
-                </div>
-            </article>
-            <article class="location">
-                <img class="location__photo" src="images/karachayevsk.jpg" alt="Карачаевск">
-                <div class="location__info">
-                    <h2 class="location__title">Карачаево-Черкессия</h2>
-                    <button class="location__like-icon" type="button"></button>
-                </div>
-            </article>
-    </section>
+
+        </section>
     </main>
     <footer class="footer">© 2020 Mesto Russia</footer>
     <div class="popup popup_edit">
@@ -94,6 +53,15 @@
             </form>
         </div>
     </div>
+    <template id="location-template">
+        <article class="location">
+            <img class="location__photo">
+            <div class="location__info">
+                <h2 class="location__title"></h2>
+                <button class="location__like-icon" type="button"></button>
+            </div>
+        </article>
+    </template>
 <script src="script.js"></script>
 </body>
 </html>
