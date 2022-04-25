@@ -68,7 +68,7 @@
     </section>
     </main>
     <footer class="footer">© 2020 Mesto Russia</footer>
-    <div class="popup">
+    <div class="popup popup_edit">
         <div class="popup__wrapper">
             <button class="popup__close-button"></button>
             <form class="popup__container" method="post" name="edit-profile">
@@ -76,6 +76,19 @@
                 <fieldset class="popup__input-container">
                     <input type="text" class="popup__input" name="name" id="name">
                     <input type="text" class="popup__input" name="description" id="description">
+                </fieldset>
+                <button class="popup__submit-button" type="submit">Сохранить</button>
+            </form>
+        </div>
+    </div>
+    <div class="popup popup_addPlace">
+        <div class="popup__wrapper">
+            <button class="popup__close-button"></button>
+            <form class="popup__container" method="post" name="add-place">
+                <h2 class="popup__heading">Новое место</h2>
+                <fieldset class="popup__input-container">
+                    <input type="text" class="popup__input" name="nameOfPlace" id="nameOfPlace" placeholder="Название">
+                    <input type="text" class="popup__input" name="linkImg" id="linkImg" placeholder="Ссылка на картинку">
                 </fieldset>
                 <button class="popup__submit-button" type="submit">Сохранить</button>
             </form>
