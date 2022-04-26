@@ -13,6 +13,7 @@
 @import url(../blocks/profile/__button-edit/profile__button-edit.css);
 @import url(../blocks/locations/locations.css);
 @import url(../blocks/location/location.css);
+@import url(../blocks/location/__delete-icon/location__delete-icon.css);
 @import url(../blocks/location/__photo/location__photo.css);
 @import url(../blocks/location/__info/location__info.css);
 @import url(../blocks/location/__title/location__title.css);
