@@ -11,7 +11,59 @@ let profile = document.querySelector('.profile'),
     inputName = document.querySelector('#name'),
     inputDescription = document.querySelector('#description')
 
+const initialCards = [
+    {
+        name: 'Архыз',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+        name: 'Челябинская область',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+        name: 'Иваново',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+        name: 'Камчатка',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+        name: 'Холмогорский район',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+        name: 'Байкал',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+];
+
 const locations = document.querySelector('.locations');
+
+// Добавление карточек из массива карточек при загрузке
+initialCards.forEach(function (card) {
+    addLocation (card.name, card.link);
+})
+
+//Переключаем like на карточке
+function toggleLike (evt) {
+    evt.target.classList.toggle('location__like-icon_active');
+}
+
+function addLocation (name, link) {
+    const locationTemplate = document.querySelector('#location-template').content;
+    const locationElement = locationTemplate.querySelector('.location').cloneNode(true);
+    locationElement.querySelector('.location__photo').src = link;
+    locationElement.querySelector('.location__photo').setAttribute('alt', name);
+    locationElement.querySelector('.location__title').textContent = name;
+    locationElement.querySelector('.location__delete-icon').addEventListener('click', deleteLocation);
+    locationElement.querySelector('.location__like-icon').addEventListener('click', toggleLike)
+    locations.append(locationElement);
+}
+
+function deleteLocation (evt) {
+    evt.target.closest('.location').remove();
+}
 
 function openEditForm () {
     popupEdit.classList.add ('popup_opened');
@@ -24,7 +76,7 @@ function openAddForm () {
 }
 
 function closeForm (evt) {
-    let formContainer =  evt.target.parentElement.parentElement;
+    let formContainer =  evt.target.closest('.popup');
     formContainer.classList.remove ('popup_opened');
 
     if (formContainer.classList.contains('popup_edit')) {
@@ -42,26 +94,13 @@ function submitEditForm (evt) {
 
 function submitAddForm (evt) {
     evt.preventDefault();
-    let inputNameOfPlace = popupAdd.querySelector('#nameOfPlace');
-    let inputLinkImg = popupAdd.querySelector('#linkImg');
-
+    let inputNameOfPlace = popupAdd.querySelector('#nameOfPlace').value;
+    let inputLinkImg = popupAdd.querySelector('#linkImg').value;
     addLocation (inputNameOfPlace, inputLinkImg);
     closeForm (evt);
 }
 
-function toggleLike(evt) {
-    evt.target.classList.toggle('location__like-icon_active');
-}
 
-function addLocation (inputNameOfPlace, inputLinkImg) {
-    const locationTemplate = document.querySelector('#location-template').content;
-    const locationElement = locationTemplate.querySelector('.location').cloneNode(true);
-    locationElement.querySelector('.location__like-icon').addEventListener('click', evt => toggleLike(evt));
-    locationElement.querySelector('.location__photo').src = inputLinkImg.value;
-    locationElement.querySelector('.location__photo').setAttribute('alt', inputNameOfPlace.value);
-    locationElement.querySelector('.location__title').textContent = inputNameOfPlace.value;
-    locations.append(locationElement);
-}
 
 
 buttonsClose.forEach ((button) => button.addEventListener('click', (evt) => closeForm(evt)));
@@ -69,3 +108,4 @@ buttonAdd.addEventListener('click', openAddForm);
 buttonEdit.addEventListener('click', openEditForm);
 popupContainerEditForm.addEventListener('submit', submitEditForm);
 popupContainerAddForm.addEventListener('submit', submitAddForm);
+
