@@ -39,6 +39,9 @@ const initialCards = [
 ];
 
 const locations = document.querySelector('.locations');
+const popupGallery = document.querySelector('.popup_gallery');
+const popupImg = popupGallery.querySelector('.popup__image');
+const popupCaption = popupGallery.querySelector('.popup__caption');
 
 // Добавление карточек из массива карточек при загрузке
 initialCards.forEach(function (card) {
@@ -55,10 +58,19 @@ function addLocation (name, link) {
     const locationElement = locationTemplate.querySelector('.location').cloneNode(true);
     locationElement.querySelector('.location__photo').src = link;
     locationElement.querySelector('.location__photo').setAttribute('alt', name);
+    locationElement.querySelector('.location__photo').addEventListener('click', openBigPhoto);
     locationElement.querySelector('.location__title').textContent = name;
     locationElement.querySelector('.location__delete-icon').addEventListener('click', deleteLocation);
     locationElement.querySelector('.location__like-icon').addEventListener('click', toggleLike)
-    locations.append(locationElement);
+    locations.prepend(locationElement);
+}
+
+function openBigPhoto (evt){
+    popupGallery.classList.add ('popup_opened');
+    popupGallery.querySelector('.popup__image').src = evt.target.src;
+    popupGallery.querySelector('.popup__image').setAttribute('alt', evt.target.alt)
+    popupGallery.querySelector('.popup__caption').textContent = evt.target.alt;
+
 }
 
 function deleteLocation (evt) {
