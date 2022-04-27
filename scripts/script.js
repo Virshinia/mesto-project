@@ -1,17 +1,22 @@
-let profile = document.querySelector('.profile'),
+//Переменные в блоке профиля
+const profile = document.querySelector('.profile'),
+    profileName = profile.querySelector('.profile__name'),
+    profileDescription = profile.querySelector('.profile__description'),
     buttonEdit = profile.querySelector('.profile__button-edit'),
-    buttonAdd = profile.querySelector('.profile__button-add'),
-    buttonsClose = document.querySelectorAll('.popup__close-button'),
+    buttonAdd = profile.querySelector('.profile__button-add');
+
+// Переменные для модальных окон
+const buttonsClose = document.querySelectorAll('.popup__close-button'),
     popupEdit = document.querySelector('.popup_edit'),
     popupAdd = document.querySelector('.popup_addPlace'),
     popupContainerEditForm = document.querySelector('[name="edit-profile"]'),
     popupContainerAddForm = document.querySelector('[name="add-place"]'),
-    profileName = document.querySelector('.profile__name'),
-    profileDescription = document.querySelector('.profile__description'),
     inputName = document.querySelector('#name'),
-    inputDescription = document.querySelector('#description')
+    inputDescription = document.querySelector('#description');
 
-const initialCards = [
+//Переменные для загрузки и добавления локаций
+const locations = document.querySelector('.locations'),
+    initialCards = [
     {
         name: 'Архыз',
         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -38,12 +43,12 @@ const initialCards = [
     }
 ];
 
-const locations = document.querySelector('.locations');
-const popupGallery = document.querySelector('.popup_gallery');
-const popupImg = popupGallery.querySelector('.popup__image');
-const popupCaption = popupGallery.querySelector('.popup__caption');
+// Переменные для модального окна с большой картинкой
+const popupGallery = document.querySelector('.popup_gallery'),
+    popupImg = popupGallery.querySelector('.popup__image'),
+    popupCaption = popupGallery.querySelector('.popup__caption');
 
-// Добавление карточек из массива карточек при загрузке
+// Добавление карточек из массива initialCards при загрузке
 initialCards.forEach(function (card) {
     addLocation (card.name, card.link);
 })
@@ -53,40 +58,47 @@ function toggleLike (evt) {
     evt.target.classList.toggle('location__like-icon_active');
 }
 
+//Добавление карточки
 function addLocation (name, link) {
     const locationTemplate = document.querySelector('#location-template').content;
     const locationElement = locationTemplate.querySelector('.location').cloneNode(true);
-    locationElement.querySelector('.location__photo').src = link;
-    locationElement.querySelector('.location__photo').setAttribute('alt', name);
-    locationElement.querySelector('.location__photo').addEventListener('click', openBigPhoto);
+    const locationPhoto = locationElement.querySelector('.location__photo');
+    locationPhoto.src = link;
+    locationPhoto.setAttribute('alt', name);
+    locationPhoto.addEventListener('click', openBigPhoto);
     locationElement.querySelector('.location__title').textContent = name;
     locationElement.querySelector('.location__delete-icon').addEventListener('click', deleteLocation);
     locationElement.querySelector('.location__like-icon').addEventListener('click', toggleLike)
     locations.prepend(locationElement);
 }
 
+//Открытие модального окна с фото
 function openBigPhoto (evt){
     popupGallery.classList.add ('popup_opened');
-    popupGallery.querySelector('.popup__image').src = evt.target.src;
-    popupGallery.querySelector('.popup__image').setAttribute('alt', evt.target.alt)
-    popupGallery.querySelector('.popup__caption').textContent = evt.target.alt;
+    popupImg.src = evt.target.src;
+    popupImg.setAttribute('alt', evt.target.alt)
+    popupCaption.textContent = evt.target.alt;
 
 }
 
+//Удаление локации
 function deleteLocation (evt) {
     evt.target.closest('.location').remove();
 }
 
+//Открытие формы для редактирования информации в профиле
 function openEditForm () {
     popupEdit.classList.add ('popup_opened');
     inputName.setAttribute('placeholder', profileName.textContent);
     inputDescription.setAttribute('placeholder', profileDescription.textContent);
 }
 
+//Открытие формы для добавления новой локации
 function openAddForm () {
     popupAdd.classList.add ('popup_opened');
 }
 
+// Закрытие всех модальных окон
 function closeForm (evt) {
     let formContainer =  evt.target.closest('.popup');
     formContainer.classList.remove ('popup_opened');
@@ -97,6 +109,7 @@ function closeForm (evt) {
     }
 }
 
+// Сохранение изменений в профиле
 function submitEditForm (evt) {
     evt.preventDefault();
     profileName.textContent = inputName.value;
@@ -104,17 +117,17 @@ function submitEditForm (evt) {
     closeForm (evt);
 }
 
+// Сохранение данных
 function submitAddForm (evt) {
     evt.preventDefault();
-    let inputNameOfPlace = popupAdd.querySelector('#nameOfPlace').value;
-    let inputLinkImg = popupAdd.querySelector('#linkImg').value;
+    const inputNameOfPlace = popupAdd.querySelector('#nameOfPlace').value;
+    const inputLinkImg = popupAdd.querySelector('#linkImg').value;
     addLocation (inputNameOfPlace, inputLinkImg);
     closeForm (evt);
 }
 
 
-
-
+//События на кнопках
 buttonsClose.forEach ((button) => button.addEventListener('click', (evt) => closeForm(evt)));
 buttonAdd.addEventListener('click', openAddForm);
 buttonEdit.addEventListener('click', openEditForm);
