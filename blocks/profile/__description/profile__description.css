@@ -5,6 +5,9 @@
     margin: 0;
     align-self: end;
     grid-area: profile-info-description;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 @media screen and (max-width: 768px) {
