@@ -109,6 +109,8 @@ function closeForm (evt) {
     }
 }
 
+buttonsClose.forEach ((button) => button.addEventListener('click', (evt) => closeForm(evt)));
+
 // Сохранение изменений в профиле
 function submitEditForm (evt) {
     evt.preventDefault();
@@ -126,9 +128,7 @@ function submitAddForm (evt) {
     closeForm (evt);
 }
 
-
 //События на кнопках
-buttonsClose.forEach ((button) => button.addEventListener('click', (evt) => closeForm(evt)));
 buttonAdd.addEventListener('click', openAddForm);
 buttonEdit.addEventListener('click', openEditForm);
 popupContainerEditForm.addEventListener('submit', submitEditForm);
