@@ -3,3 +3,7 @@
     top: 20px;
     right: 20px;
 }
+
+.location__delete-icon:hover {
+    cursor: pointer;
+}

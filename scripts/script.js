@@ -15,7 +15,8 @@ const buttonsClose = document.querySelectorAll('.popup__close-button'),
     inputDescription = document.querySelector('#description');
 
 //Переменные для загрузки и добавления локаций
-const locations = document.querySelector('.locations'),
+const locationTemplate = document.querySelector('#location-template').content;
+const cardsContainer = document.querySelector('.locations'),
     initialCards = [
     {
         name: 'Архыз',
@@ -50,35 +51,38 @@ const popupGallery = document.querySelector('.popup_gallery'),
 
 // Добавление карточек из массива initialCards при загрузке
 initialCards.forEach(function (card) {
-    addLocation (card.name, card.link);
+    renderLocation (card.name, card.link);
 })
+
+//Добавление карточки
+function renderLocation (name, link) {
+    cardsContainer.prepend(createLocation(name, link));
+}
+
+// Создание карточки
+function createLocation (name, link) {
+    const locationElement = locationTemplate.querySelector('.location').cloneNode(true);
+    const locationPhoto = locationElement.querySelector('.location__photo');
+    locationPhoto.src = link;
+    locationPhoto.setAttribute('alt', name);
+    locationPhoto.addEventListener('click',() => openBigPhoto({ name, link }));
+    locationElement.querySelector('.location__title').textContent = name;
+    locationElement.querySelector('.location__delete-icon').addEventListener('click', deleteLocation);
+    locationElement.querySelector('.location__like-icon').addEventListener('click', toggleLike);
+    return locationElement;
+}
 
 //Переключаем like на карточке
 function toggleLike (evt) {
     evt.target.classList.toggle('location__like-icon_active');
 }
 
-//Добавление карточки
-function addLocation (name, link) {
-    const locationTemplate = document.querySelector('#location-template').content;
-    const locationElement = locationTemplate.querySelector('.location').cloneNode(true);
-    const locationPhoto = locationElement.querySelector('.location__photo');
-    locationPhoto.src = link;
-    locationPhoto.setAttribute('alt', name);
-    locationPhoto.addEventListener('click', openBigPhoto);
-    locationElement.querySelector('.location__title').textContent = name;
-    locationElement.querySelector('.location__delete-icon').addEventListener('click', deleteLocation);
-    locationElement.querySelector('.location__like-icon').addEventListener('click', toggleLike)
-    locations.prepend(locationElement);
-}
-
-//Открытие модального окна с фото
-function openBigPhoto (evt){
-    popupGallery.classList.add ('popup_opened');
-    popupImg.src = evt.target.src;
-    popupImg.setAttribute('alt', evt.target.alt)
-    popupCaption.textContent = evt.target.alt;
-
+//Создание модального окна с фото
+function openBigPhoto ({name, link}){
+    popupImg.src = link;
+    popupImg.setAttribute('alt', name)
+    popupCaption.textContent = name;
+    openPopup(popupGallery);
 }
 
 //Удаление локации
@@ -86,51 +90,43 @@ function deleteLocation (evt) {
     evt.target.closest('.location').remove();
 }
 
-//Открытие формы для редактирования информации в профиле
-function openEditForm () {
-    popupEdit.classList.add ('popup_opened');
-    inputName.setAttribute('placeholder', profileName.textContent);
-    inputDescription.setAttribute('placeholder', profileDescription.textContent);
-}
-
-//Открытие формы для добавления новой локации
-function openAddForm () {
-    popupAdd.classList.add ('popup_opened');
-}
-
 // Закрытие всех модальных окон
-function closeForm (evt) {
-    let formContainer =  evt.target.closest('.popup');
-    formContainer.classList.remove ('popup_opened');
-
-    if (formContainer.classList.contains('popup_edit')) {
-        inputName.value = '';
-        inputDescription.value = '';
-    }
+function closePopup (popup) {
+    popup.classList.remove ('popup_opened');
 }
 
-buttonsClose.forEach ((button) => button.addEventListener('click', (evt) => closeForm(evt)));
+buttonsClose.forEach ((button) => button.addEventListener('click', (evt) => closePopup (evt.target.closest('.popup'))));
+
+//Открытие всех модальных окон
+function openPopup (popup) {
+    popup.classList.add('popup_opened');
+}
 
 // Сохранение изменений в профиле
+inputName.value = profileName.textContent;
+inputDescription.value = profileDescription.textContent;
+
 function submitEditForm (evt) {
     evt.preventDefault();
     profileName.textContent = inputName.value;
     profileDescription.textContent = inputDescription.value;
-    closeForm (evt);
+    closePopup (evt);
 }
 
 // Сохранение данных
 function submitAddForm (evt) {
     evt.preventDefault();
-    const inputNameOfPlace = popupAdd.querySelector('#nameOfPlace').value;
-    const inputLinkImg = popupAdd.querySelector('#linkImg').value;
-    addLocation (inputNameOfPlace, inputLinkImg);
-    closeForm (evt);
+    const inputNameOfPlace = popupAdd.querySelector('#nameOfPlace');
+    const inputLinkImg = popupAdd.querySelector('#linkImg');
+    renderLocation (inputNameOfPlace.value, inputLinkImg.value);
+    closePopup (evt);
+    inputNameOfPlace.value = '';
+    inputLinkImg.value = '';
 }
 
 //События на кнопках
-buttonAdd.addEventListener('click', openAddForm);
-buttonEdit.addEventListener('click', openEditForm);
+buttonAdd.addEventListener('click', () => openPopup(popupAdd));
+buttonEdit.addEventListener('click', ()=> openPopup(popupEdit));
 popupContainerEditForm.addEventListener('submit', submitEditForm);
 popupContainerAddForm.addEventListener('submit', submitAddForm);
 
