@@ -89,11 +89,6 @@ function deleteLocation (evt) {
     evt.target.closest('.location').remove();
 }
 
-//Обнуление всех input
-function clearInputs (container){
-    container.querySelectorAll('input').forEach((input) => input.value = '')
-}
-
 //Установка слушателя на все кнопки закрытия модальных окон
 buttonsClose.forEach ((button) => button.addEventListener('click', (evt) => closePopup(evt.target.closest('.popup'))));
 
@@ -122,13 +117,11 @@ function submitAddForm (evt) {
     const inputLinkImg = popupAdd.querySelector('#linkImg');
     renderLocation (inputNameOfPlace.value, inputLinkImg.value);
     closePopup (popupAdd);
-    inputNameOfPlace.value = '';
-    inputLinkImg.value = '';
 }
 
 //События на кнопках
 buttonAdd.addEventListener('click', () => {
-    clearInputs(popupAdd);
+    popupContainerAddForm.reset();
     openPopup(popupAdd);
 });
 buttonEdit.addEventListener('click', ()=> {
