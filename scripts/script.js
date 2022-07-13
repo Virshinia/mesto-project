@@ -1,3 +1,5 @@
+//Глобал
+const wrapper = document.querySelector('.wrapper');
 //Переменные в блоке профиля
 const profile = document.querySelector('.profile'),
     profileName = profile.querySelector('.profile__name'),
@@ -7,12 +9,14 @@ const profile = document.querySelector('.profile'),
 
 // Переменные для модальных окон
 const buttonsClose = document.querySelectorAll('.popup__close-button'),
+    popups = document.querySelectorAll('.popup'),
     popupEdit = document.querySelector('.popup_edit'),
     popupAdd = document.querySelector('.popup_addPlace'),
     popupContainerEditForm = document.querySelector('[name="edit-profile"]'),
     popupContainerAddForm = document.querySelector('[name="add-place"]'),
     inputName = document.querySelector('#name'),
     inputDescription = document.querySelector('#description');
+let popupOpened;
 
 // Переменные для модального окна с большой картинкой
 const popupGallery = document.querySelector('.popup_gallery'),
@@ -100,6 +104,7 @@ function closePopup (popup) {
 //Открытие всех модальных окон
 function openPopup (popup) {
     popup.classList.add('popup_opened');
+    popupOpened = popup;
 }
 
 // Сохранение изменений в профиле
@@ -131,4 +136,19 @@ buttonEdit.addEventListener('click', ()=> {
 });
 popupContainerEditForm.addEventListener('submit', submitEditForm);
 popupContainerAddForm.addEventListener('submit', submitAddForm);
+
+
+// Закрытие попапа по esc
+document.addEventListener('keyup', event => {
+    if (event.key === 'Escape') {
+        closePopup(popupOpened);
+    }
+});
+
+//Закрытие попапа по overlay
+popups.forEach ((popup) => popup.addEventListener('click', event => {
+    if (event.target === event.currentTarget) {
+        closePopup(popupOpened);
+    }
+}));
 
