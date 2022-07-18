@@ -1,5 +1,3 @@
-//Глобал
-const wrapper = document.querySelector('.wrapper');
 //Переменные в блоке профиля
 const profile = document.querySelector('.profile'),
     profileName = profile.querySelector('.profile__name'),
@@ -14,8 +12,8 @@ const buttonsClose = document.querySelectorAll('.popup__close-button'),
     popupAdd = document.querySelector('.popup_addPlace'),
     popupContainerEditForm = document.querySelector('[name="edit-profile"]'),
     popupContainerAddForm = document.querySelector('[name="add-place"]'),
-    inputName = document.querySelector('#name'),
-    inputDescription = document.querySelector('#description');
+    inputName = document.querySelector('#name-input'),
+    inputDescription = document.querySelector('#description-input');
 let popupOpened;
 
 // Переменные для модального окна с большой картинкой
@@ -118,8 +116,8 @@ function submitEditForm (evt) {
 // Сохранение данных локации
 function submitAddForm (evt) {
     evt.preventDefault();
-    const inputNameOfPlace = popupAdd.querySelector('#nameOfPlace');
-    const inputLinkImg = popupAdd.querySelector('#linkImg');
+    const inputNameOfPlace = popupAdd.querySelector('#nameOfPlace-input');
+    const inputLinkImg = popupAdd.querySelector('#linkImg-input');
     renderLocation (inputNameOfPlace.value, inputLinkImg.value);
     closePopup (popupAdd);
 }
@@ -134,21 +132,79 @@ buttonEdit.addEventListener('click', ()=> {
     inputDescription.value = profileDescription.textContent;
     openPopup(popupEdit);
 });
-popupContainerEditForm.addEventListener('submit', submitEditForm);
-popupContainerAddForm.addEventListener('submit', submitAddForm);
 
 
-// Закрытие попапа по esc
+
+// Закрытие popup по esc
 document.addEventListener('keyup', event => {
     if (event.key === 'Escape') {
         closePopup(popupOpened);
     }
 });
 
-//Закрытие попапа по overlay
+//Закрытие popup по overlay
 popups.forEach ((popup) => popup.addEventListener('click', event => {
     if (event.target === event.currentTarget) {
         closePopup(popupOpened);
     }
 }));
 
+//
+const showInputError = (popupElement, inputElement, errorMessage) => {
+    const errorElement = popupElement.querySelector(`.${inputElement.id}-error`);
+    inputElement.classList.add('popup__input_type_error');
+    errorElement.textContent = errorMessage;
+    errorElement.classList.add('popup__input-error');
+};
+const hideInputError = (popupElement, inputElement) => {
+    const errorElement = popupElement.querySelector(`.${inputElement.id}-error`);
+    inputElement.classList.remove('popup__input_type_error');
+    errorElement.classList.remove('popup__input-error');
+    errorElement.textContent = '';
+};
+const checkInputValidity = (popupElement, inputElement) => {
+    if (!inputElement.validity.valid) {
+        showInputError(popupElement, inputElement, inputElement.validationMessage);
+    } else {
+        hideInputError(popupElement, inputElement);
+    }
+};
+const setEventListeners = (fieldSet) => {
+    const inputList = Array.from(fieldSet.querySelectorAll('.popup__input'));
+    const buttonElement = fieldSet.querySelector('.popup__submit-button');
+    toggleButtonState(inputList, buttonElement);
+    inputList.forEach((inputElement) => {
+        inputElement.addEventListener('input', function () {
+            checkInputValidity(fieldSet, inputElement);
+            toggleButtonState(inputList, buttonElement);
+        });
+    });
+};
+const enableValidation = () => {
+  const popupList = Array.from(document.querySelectorAll('.popup__container'));
+  popupList.forEach((popupElement) => {
+    const fieldsetList = Array.from(popupElement.querySelectorAll('.popup__input-container'));
+    console.log(fieldsetList);
+    fieldsetList.forEach((fieldSet) => {
+      setEventListeners(fieldSet);
+    });
+  });
+};
+
+const hasInvalidInput = (inputList) => {
+    return inputList.some((inputElement) => {
+        return !inputElement.validity.valid;
+    });
+};
+const toggleButtonState = (inputList, buttonElement) => {
+    if (hasInvalidInput(inputList)) {
+        buttonElement.classList.add('popup__submit-button_inactive');
+    } else {
+        buttonElement.classList.remove('popup__submit-button_inactive');
+    }
+};
+
+enableValidation();
+
+popupContainerEditForm.addEventListener('submit', submitEditForm);
+popupContainerAddForm.addEventListener('submit', submitAddForm);

@@ -1,0 +1,13 @@
+.popup__field {
+  display: block;
+  margin-top: 26px;
+}
+
+.popup__field:first-child {
+  margin-top: 0;
+}
+
+.popup__field:last-of-type {
+  margin-bottom: 48px;
+}
+
