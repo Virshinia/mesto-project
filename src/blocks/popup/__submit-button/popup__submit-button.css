@@ -2,11 +2,11 @@
   background-color: #000;
   color: #fff;
   width: 100%;
-  padding: 15px 0;
+  padding: 13px 0;
   font-size: 18px;
   line-height: 22px;
   cursor: pointer;
-  border: none;
+  border: 1px solid #000;
   border-radius: 2px;
   transition: opacity .4s ease-out;
 }
@@ -15,11 +15,10 @@
   opacity: .8;
 }
 
-
 @media screen and (max-width: 768px) {
-    .popup__submit-button {
-        font-size: 14px;
-        line-height: 17px;
-        padding: 14px 0;
-    }
+  .popup__submit-button {
+    font-size: 14px;
+    line-height: 17px;
+    padding: 14px 0;
+  }
 }

@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="Проектная работа Mesto Russia">
   <title>Mesto Russia</title>
-  <link rel="stylesheet" href="pages/index.css">
 </head>
 <body class="wrapper">
 <header class="header">
-  <img class="logo" src="images/logo-mesto.svg" alt="логотип Mesto Russia">
+  <img class="logo" src="<%=require('./images/logo-mesto.svg')%>" alt="логотип Mesto Russia">
 </header>
 <main class="content">
   <section class="profile">
-    <img class="profile__photo" src="images/avatar.jpg" alt="фото профиля">
+    <img class="profile__photo" src="<%=require('./images/avatar.jpg')%>" alt="фото профиля">
     <div class="profile__info">
       <h1 class="profile__name">Жак-Ив Кусто</h1>
       <p class="profile__description">Исследователь океана</p>
@@ -22,7 +22,6 @@
     <button class="profile__button-add" aria-label="добавить" name="add" type="button"></button>
   </section>
   <section class="locations">
-
   </section>
 </main>
 <footer class="footer">© 2020 Mesto Russia</footer>
@@ -33,11 +32,27 @@
       <h2 class="popup__heading">Редактировать профиль</h2>
       <fieldset class="popup__input-container">
         <label class="popup__field">
-          <input type="text" class="popup__input" name="name" id="name-input" placeholder="Ваше имя" required minlength="2" maxlength="40">
+          <input type="text" class="popup__input"
+                 name="name"
+                 id="name-input"
+                 placeholder="Ваше имя"
+                 minlength="2"
+                 maxlength="40"
+                 pattern="^[-aA-zZаА-яЯ\s]+$"
+                 data-error-message="Допустимы только латинские и кириллические буквы, знаки дефиса и пробелы."
+                 required>
           <span class="popup__input-error name-input-error"></span>
         </label>
         <label class="popup__field">
-          <input type="text" class="popup__input" name="description" id="description-input" placeholder="Ваш род деятельности" required minlength="2" maxlength="40">
+          <input type="text" class="popup__input"
+                 name="description"
+                 id="description-input"
+                 placeholder="Ваш род деятельности"
+                 minlength="2"
+                 maxlength="200"
+                 pattern="^[-aA-zZаА-яЯ\s]+$"
+                 data-error-message="Допустимы только латинские и кириллические буквы, знаки дефиса и пробелы."
+                 required>
           <span class="popup__input-error description-input-error"></span>
         </label>
         <button class="popup__submit-button" type="submit">Сохранить</button>
@@ -52,11 +67,22 @@
       <h2 class="popup__heading">Новое место</h2>
       <fieldset class="popup__input-container">
         <label class="popup__field">
-          <input type="text" class="popup__input" name="nameOfPlace" id="nameOfPlace-input" placeholder="Название" required minlength="2" maxlength="30">
+          <input type="text" class="popup__input"
+                 name="nameOfPlace" id="nameOfPlace-input"
+                 placeholder="Название"
+                 minlength="2"
+                 maxlength="30"
+                 pattern="^[-aA-zZаА-яЯ\s]+$"
+                 data-error-message="Допустимы только латинские и кириллические буквы, знаки дефиса и пробелы."
+                 required>
           <span class="popup__input-error nameOfPlace-input-error"></span>
         </label>
         <label class="popup__field">
-          <input type="url" class="popup__input" name="linkImg" id="linkImg-input" placeholder="Ссылка на картинку" required>
+          <input type="url" class="popup__input"
+                 name="linkImg"
+                 id="linkImg-input"
+                 placeholder="Ссылка на картинку"
+                 required>
           <span class="popup__input-error linkImg-input-error"></span>
         </label>
         <button class="popup__submit-button" type="submit">Сохранить</button>
@@ -80,9 +106,8 @@
       <h2 class="location__title"></h2>
       <button class="location__like-icon" type="button"></button>
     </div>
-    <img class="location__delete-icon" src="images/basket.svg" alt="удалить">
+    <img class="location__delete-icon" src="<%=require('./images/basket.svg')%>" alt="удалить">
   </article>
 </template>
-<script src="scripts/script.js"></script>
 </body>
 </html>
