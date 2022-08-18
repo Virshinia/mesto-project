@@ -1,5 +1,5 @@
 import '../pages/index.css';
-import {buttonsClose, popups, popupEdit, popupAdd, popupContainerEditForm, popupContainerAddForm, inputName, inputDescription, popupOpened} from './modal.js';
+import {popups, popupEdit, popupAdd, popupContainerEditForm, popupContainerAddForm, inputName, inputDescription} from './modal.js';
 import {openPopup, closePopup} from './utils.js';
 import {enableValidation} from './validate.js';
 import {renderLocation, initialCards} from './card.js';
@@ -30,11 +30,12 @@ function submitAddForm (evt) {
 
 
 // Закрытие popup по esc
-document.addEventListener('keyup', event => {
-  if (event.key === 'Escape') {
-    closePopup(popupOpened);
+export function closeByEscape(evt) {
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened')
+    closePopup(openedPopup);
   }
-});
+}
 
 //Закрытие popup по overlay
 popups.forEach ((popup) => popup.addEventListener('click', event => {
@@ -43,9 +44,16 @@ popups.forEach ((popup) => popup.addEventListener('click', event => {
   }
 }));
 
-//Установка слушателя на все кнопки закрытия модальных окон
-buttonsClose.forEach ((button) => button.addEventListener('click', (evt) => closePopup(evt.target.closest('.popup'))));
-
+popups.forEach((popup) => {
+  popup.addEventListener('mousedown', (evt) => {
+    if (evt.target.classList.contains('popup_opened')) {
+      closePopup(popup)
+    }
+    if (evt.target.classList.contains('popup__close-button')) {
+      closePopup(popup)
+    }
+  })
+})
 
 //События на кнопках "редактировать" и "добавить"
 buttonAdd.addEventListener('click', () => {
