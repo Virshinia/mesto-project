@@ -5,7 +5,9 @@ export const popups = document.querySelectorAll('.popup'),
   popupContainerEditForm = document.querySelector('[name="edit-profile"]'),
   popupContainerAddForm = document.querySelector('[name="add-place"]'),
   inputName = document.querySelector('#name-input'),
-  inputDescription = document.querySelector('#description-input');
+  inputDescription = document.querySelector('#description-input'),
+  inputNameOfPlace = popupAdd.querySelector('#nameOfPlace-input'),
+  inputLinkImg = popupAdd.querySelector('#linkImg-input');
 
 // Переменные для модального окна с большой картинкой
 const popupGallery = document.querySelector('.popup_gallery'),

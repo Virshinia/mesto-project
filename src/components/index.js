@@ -1,15 +1,15 @@
 import '../pages/index.css';
-import {popups, popupEdit, popupAdd, popupContainerEditForm, popupContainerAddForm, inputName, inputDescription} from './modal.js';
+import {popups, popupEdit, popupAdd, popupContainerEditForm, popupContainerAddForm, inputName, inputDescription, inputNameOfPlace, inputLinkImg} from './modal.js';
 import {openPopup, closePopup} from './utils.js';
 import {enableValidation} from './validate.js';
 import {renderLocation, initialCards} from './card.js';
+
 //Переменные в блоке профиля
 const profile = document.querySelector('.profile'),
   profileName = profile.querySelector('.profile__name'),
   profileDescription = profile.querySelector('.profile__description'),
   buttonEdit = profile.querySelector('.profile__button-edit'),
   buttonAdd = profile.querySelector('.profile__button-add');
-
 
 // Сохранение изменений в профиле
 function submitEditForm (evt) {
@@ -22,12 +22,9 @@ function submitEditForm (evt) {
 // Сохранение данных локации
 function submitAddForm (evt) {
   evt.preventDefault();
-  const inputNameOfPlace = popupAdd.querySelector('#nameOfPlace-input');
-  const inputLinkImg = popupAdd.querySelector('#linkImg-input');
   renderLocation (inputNameOfPlace.value, inputLinkImg.value);
   closePopup (popupAdd);
 }
-
 
 // Закрытие popup по esc
 export function closeByEscape(evt) {
@@ -37,13 +34,7 @@ export function closeByEscape(evt) {
   }
 }
 
-//Закрытие popup по overlay
-popups.forEach ((popup) => popup.addEventListener('click', event => {
-  if (event.target === event.currentTarget) {
-    closePopup(popupOpened);
-  }
-}));
-
+// Закрытие popup по overlay и по крестику
 popups.forEach((popup) => {
   popup.addEventListener('mousedown', (evt) => {
     if (evt.target.classList.contains('popup_opened')) {
@@ -66,7 +57,6 @@ buttonEdit.addEventListener('click', ()=> {
   openPopup(popupEdit);
 });
 
-
 // Добавление карточек из массива initialCards при загрузке
 initialCards.forEach((card) => renderLocation (card.name, card.link));
 
@@ -74,6 +64,7 @@ initialCards.forEach((card) => renderLocation (card.name, card.link));
 popupContainerEditForm.addEventListener('submit', submitEditForm);
 popupContainerAddForm.addEventListener('submit', submitAddForm);
 
+//Вызов валидации с настройками
 enableValidation({
   formSelector: '.popup__container',
   fieldSetSelector: '.popup__input-container',
