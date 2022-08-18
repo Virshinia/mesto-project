@@ -74,4 +74,11 @@ initialCards.forEach((card) => renderLocation (card.name, card.link));
 popupContainerEditForm.addEventListener('submit', submitEditForm);
 popupContainerAddForm.addEventListener('submit', submitAddForm);
 
-enableValidation();
+enableValidation({
+  formSelector: '.popup__container',
+  fieldSetSelector: '.popup__input-container',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit-button',
+  inactiveButtonClass: 'popup__submit-button_inactive',
+  inputErrorClass: 'popup__input_type_error'
+});
