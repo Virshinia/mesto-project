@@ -1,6 +1,6 @@
 import '../pages/index.css';
 import {popups, popupEdit, popupAdd, popupContainerEditForm, popupContainerAddForm, inputName, inputDescription, inputNameOfPlace, inputLinkImg} from './modal.js';
-import {openPopup, closePopup} from './utils.js';
+import {openPopup, closePopup, buttonOff} from './utils.js';
 import {enableValidation} from './validate.js';
 import {renderLocation, initialCards} from './card.js';
 
@@ -24,6 +24,7 @@ function submitAddForm (evt) {
   evt.preventDefault();
   renderLocation (inputNameOfPlace.value, inputLinkImg.value);
   closePopup (popupAdd);
+  buttonOff (evt.target.querySelector('.popup__submit-button'), 'popup__submit-button_inactive');
 }
 
 // Закрытие popup по esc

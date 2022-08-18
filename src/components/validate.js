@@ -1,3 +1,5 @@
+import {buttonOn, buttonOff} from './utils.js';
+
 //Добавить сообщение об ошибке
 const showInputError = (popupElement, inputElement, errorMessage, settings) => {
   const errorElement = popupElement.querySelector(`.${inputElement.id}-error`);
@@ -62,10 +64,10 @@ const hasInvalidInput = (inputList) => {
 // Активация-деактивация кнопки
 const toggleButtonState = (inputList, buttonElement, settings) => {
   if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(settings.inactiveButtonClass);
-    buttonElement.disabled = true;
+    buttonOff (buttonElement, settings.inactiveButtonClass);
   } else {
-    buttonElement.classList.remove(settings.inactiveButtonClass);
-    buttonElement.disabled = false;
+    buttonOn (buttonElement, settings.inactiveButtonClass);
   }
 };
+
+
