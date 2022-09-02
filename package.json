@@ -1,7 +1,7 @@
 {
   "name": "mesto-project",
   "version": "0.0.1",
-  "description": "Проектная работа 3-го спринта 12го потока Яндекс Практикума.\r ### Цель работы:\r Отработка навыков HTML, CSS, JS, верстка форм.",
+  "description": "Проектная работа 14го потока Яндекс Практикума",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
