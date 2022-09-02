@@ -51,11 +51,17 @@ function setEventListenerIconLike (iconLike, cardId, likesCounter) {
         iconLike.classList.remove('location__like-icon_active');
         likesCounter.textContent = card.likes.length
       })
+      .catch((err) => {
+        console.log(err);
+      })
   } else {
     putLike (cardId)
       .then (card => {
         iconLike.classList.add('location__like-icon_active');
         likesCounter.textContent = card.likes.length
+      })
+      .catch((err) => {
+        console.log(err);
       })
   }}
 
