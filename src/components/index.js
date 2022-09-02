@@ -1,30 +1,87 @@
 import '../pages/index.css';
-import {popups, popupEdit, popupAdd, popupContainerEditForm, popupContainerAddForm, inputName, inputDescription, inputNameOfPlace, inputLinkImg} from './modal.js';
+import {
+  popups,
+  popupEdit,
+  popupAdd,
+  popupContainerEditForm,
+  popupContainerAddForm,
+  popupChangeAvatar,
+  popupContainerChangeAvatarForm,
+  inputName,
+  inputDescription,
+  inputNameOfPlace,
+  inputLinkImg,
+  inputLinkAvatar,
+  popupDeletePlace, popupContainerDeletePlace
+} from './modal.js';
 import {openPopup, closePopup, buttonOff} from './utils.js';
 import {enableValidation} from './validate.js';
-import {renderLocation, initialCards} from './card.js';
+import {renderLocation} from './card.js';
+import {
+  config,
+  getInitialCards,
+  getProfileInfo,
+  submitNewProfileInfo,
+  submitNewAvatar,
+  postNewCard,
+  deleteMyCard
+} from './api.js';
+import {profileName, profileDescription, profileAvatar, buttonEdit, buttonAdd, buttonChangeAvatar, renderProfileInfo} from './profile.js';
 
-//Переменные в блоке профиля
-const profile = document.querySelector('.profile'),
-  profileName = profile.querySelector('.profile__name'),
-  profileDescription = profile.querySelector('.profile__description'),
-  buttonEdit = profile.querySelector('.profile__button-edit'),
-  buttonAdd = profile.querySelector('.profile__button-add');
+
 
 // Сохранение изменений в профиле
 function submitEditForm (evt) {
   evt.preventDefault();
-  profileName.textContent = inputName.value;
-  profileDescription.textContent = inputDescription.value;
+  submitNewProfileInfo (inputName.value, inputDescription.value)
+    .then (info => {
+      profileName.textContent = info.name;
+      profileDescription.textContent = info.about
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   closePopup (popupEdit);
 }
 
 // Сохранение данных локации
 function submitAddForm (evt) {
   evt.preventDefault();
-  renderLocation (inputNameOfPlace.value, inputLinkImg.value);
+  postNewCard(inputNameOfPlace.value, inputLinkImg.value)
+    .then (card => {
+      renderLocation(card.name, card.link, card.likes, card.owner._id, card._id)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   closePopup (popupAdd);
   buttonOff (evt.target.querySelector('.popup__submit-button'), 'popup__submit-button_inactive');
+}
+
+function submitChangePhoto (evt) {
+  evt.preventDefault();
+  submitNewAvatar (inputLinkAvatar.value)
+    .then (link => {
+      profileAvatar.src = link.avatar
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  closePopup(popupChangeAvatar);
+}
+
+export function submitDeletePlace (evt, cardId, currentCard) {
+  evt.preventDefault();
+  console.log(cardId);
+  deleteMyCard (cardId)
+    .then (() => {
+        currentCard.remove();
+        closePopup(popupDeletePlace);
+      }
+      )
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 // Закрытие popup по esc
@@ -47,23 +104,39 @@ popups.forEach((popup) => {
   })
 })
 
-//События на кнопках "редактировать" и "добавить"
+//События на кнопках "редактировать", "добавить", "изменить фото"
 buttonAdd.addEventListener('click', () => {
   popupContainerAddForm.reset();
   openPopup(popupAdd);
 });
+
 buttonEdit.addEventListener('click', ()=> {
   inputName.value = profileName.textContent;
   inputDescription.value = profileDescription.textContent;
   openPopup(popupEdit);
 });
 
-// Добавление карточек из массива initialCards при загрузке
-initialCards.forEach((card) => renderLocation (card.name, card.link));
+buttonChangeAvatar.addEventListener('click', ()=> {
+  popupContainerChangeAvatarForm.reset();
+  openPopup(popupChangeAvatar);
+});
+
+// Получение данных о профиле и карточках с сервера
+Promise.all([getInitialCards(), getProfileInfo()])
+  .then(([cards, info]) => {
+    renderProfileInfo(info.name, info.avatar, info.about);
+    config.myId = info._id;
+    cards.reverse().forEach((card) =>
+      renderLocation(card.name, card.link, card.likes, card.owner._id, card._id),
+    )
+  }
+)
 
 //Добавление слушателей на формы
 popupContainerEditForm.addEventListener('submit', submitEditForm);
 popupContainerAddForm.addEventListener('submit', submitAddForm);
+popupContainerChangeAvatarForm.addEventListener('submit', submitChangePhoto);
+
 
 //Вызов валидации с настройками
 enableValidation({
