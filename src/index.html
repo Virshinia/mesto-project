@@ -13,10 +13,11 @@
 </header>
 <main class="content">
   <section class="profile">
-    <img class="profile__photo" src="<%=require('./images/avatar.jpg')%>" alt="фото профиля">
+      <img class="profile__photo" src="" alt="фото профиля">
+      <button class="profile__button-avatar" aria-label="изменить фото" name="changePhoto" type="button"></button>
     <div class="profile__info">
-      <h1 class="profile__name">Жак-Ив Кусто</h1>
-      <p class="profile__description">Исследователь океана</p>
+      <h1 class="profile__name"></h1>
+      <p class="profile__description"></p>
       <button class="profile__button-edit" aria-label="редактировать" name="edit" type="button"></button>
     </div>
     <button class="profile__button-add" aria-label="добавить" name="add" type="button"></button>
@@ -90,6 +91,36 @@
     </form>
   </div>
 </div>
+<div class="popup popup_changeAvatar">
+  <div class="popup__wrapper">
+    <button class="popup__close-button"></button>
+    <form class="popup__container" method="post" name="change-avatar" novalidate>
+      <h2 class="popup__heading">Обновить аватар</h2>
+      <fieldset class="popup__input-container">
+        <label class="popup__field">
+          <input type="url" class="popup__input"
+                 name="linkAvatar"
+                 id="linkAvatar-input"
+                 placeholder="Ссылка на аватар"
+                 required>
+          <span class="popup__input-error linkAvatar-input-error"></span>
+        </label>
+        <button class="popup__submit-button" type="submit">Сохранить</button>
+      </fieldset>
+    </form>
+  </div>
+</div>
+<div class="popup popup_deletePlace">
+  <div class="popup__wrapper">
+    <button class="popup__close-button"></button>
+    <form class="popup__container" method="post" name="delete-place" novalidate>
+      <h2 class="popup__heading">Вы уверены?</h2>
+      <fieldset class="popup__input-container">
+        <button class="popup__submit-button" type="submit">Да</button>
+      </fieldset>
+    </form>
+  </div>
+</div>
 <div class="popup popup_gallery">
   <div class="popup__wrapper">
     <button class="popup__close-button"></button>
@@ -104,7 +135,10 @@
     <img class="location__photo">
     <div class="location__info">
       <h2 class="location__title"></h2>
-      <button class="location__like-icon" type="button"></button>
+      <div class="location__like-wrapper">
+        <button class="location__like-icon" type="button"></button>
+        <span class="location__like-counter"></span>
+      </div>
     </div>
     <img class="location__delete-icon" src="<%=require('./images/basket.svg')%>" alt="удалить">
   </article>

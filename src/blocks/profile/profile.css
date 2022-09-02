@@ -1,16 +1,17 @@
 .profile {
-    display: grid;
-    padding-top: 40px;
-    gap: 10px;
-    grid-template-columns: 140px 1fr 150px;
-    color: #fff;
-    align-items: center;
+  display: grid;
+  position: relative;
+  padding-top: 40px;
+  gap: 10px;
+  grid-template-columns: 140px 1fr 150px;
+  color: #fff;
+  align-items: center;
 }
 
 @media screen and (max-width: 768px) {
-    .profile {
-        grid-template-columns: 1fr;
-        justify-items: center;
-        padding-top: 42px;
-    }
+  .profile {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding-top: 42px;
+  }
 }
