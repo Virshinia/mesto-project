@@ -10,7 +10,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
-    publicPath: '',
+    publicPath: ''
   },
   mode: 'development',
   devServer: {
@@ -40,7 +40,7 @@ module.exports = {
         },
           'postcss-loader'
         ]
-      },
+      }
     ]
   },
   plugins: [
@@ -48,7 +48,6 @@ module.exports = {
       template: './src/index.html'
     }),
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin(),
-
+    new MiniCssExtractPlugin()
   ]
 }
