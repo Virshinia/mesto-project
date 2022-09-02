@@ -1,3 +1,5 @@
+import {openPopup} from './utils.js';
+
 //Все формы
 export const popups = document.querySelectorAll('.popup');
 
@@ -32,16 +34,15 @@ export const
   popupDeletePlace = document.querySelector('.popup_deletePlace'),
   popupContainerDeletePlace = document.querySelector('[name="delete-place"]');
 
-//Создание и открытие модального окна с фото
-import {openPopup} from './utils.js';
+//Изменение текста кнопки при загрузке
+export function showLoading (button) {
+  button.textContent = 'Сохранение...'
+}
 
+//Создание и открытие модального окна с фото
 export function openBigPhotoPopup ({name, link}){
   popupImg.src = link;
   popupImg.setAttribute('alt', name)
   popupCaption.textContent = name;
   openPopup(popupGallery);
 }
-
-
-
-

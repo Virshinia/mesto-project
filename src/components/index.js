@@ -12,7 +12,8 @@ import {
   inputNameOfPlace,
   inputLinkImg,
   inputLinkAvatar,
-  popupDeletePlace, popupContainerDeletePlace
+  popupDeletePlace,
+  showLoading
 } from './modal.js';
 import {openPopup, closePopup, buttonOff} from './utils.js';
 import {enableValidation} from './validate.js';
@@ -33,6 +34,7 @@ import {profileName, profileDescription, profileAvatar, buttonEdit, buttonAdd, b
 // Сохранение изменений в профиле
 function submitEditForm (evt) {
   evt.preventDefault();
+  showLoading(evt.submitter);
   submitNewProfileInfo (inputName.value, inputDescription.value)
     .then (info => {
       profileName.textContent = info.name;
@@ -47,6 +49,7 @@ function submitEditForm (evt) {
 // Сохранение данных локации
 function submitAddForm (evt) {
   evt.preventDefault();
+  showLoading(evt.submitter);
   postNewCard(inputNameOfPlace.value, inputLinkImg.value)
     .then (card => {
       renderLocation(card.name, card.link, card.likes, card.owner._id, card._id)
@@ -60,6 +63,7 @@ function submitAddForm (evt) {
 
 function submitChangePhoto (evt) {
   evt.preventDefault();
+  showLoading(evt.submitter);
   submitNewAvatar (inputLinkAvatar.value)
     .then (link => {
       profileAvatar.src = link.avatar

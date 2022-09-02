@@ -7,6 +7,7 @@ export const profile = document.querySelector('.profile'),
   buttonAdd = profile.querySelector('.profile__button-add'),
   buttonChangeAvatar = profile.querySelector('.profile__button-avatar')
 
+// Изменение инфо профиля в верстке
 export const renderProfileInfo = (name, avatar, description) => {
   profileName.textContent = name;
   profileDescription.textContent = description;
