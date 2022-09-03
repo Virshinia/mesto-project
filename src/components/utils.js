@@ -1,4 +1,5 @@
-import {closeByEscape} from './index.js';
+import {closeByEscape, submitDeletePlace} from './index.js';
+import {popupContainerDeletePlace} from "./modal.js";
 
 //Открытие всех модальных окон
 export function openPopup (popup) {
@@ -10,6 +11,7 @@ export function openPopup (popup) {
 export function closePopup (popup) {
   popup.classList.remove ('popup_opened');
   document.removeEventListener('keydown', closeByEscape);
+  popupContainerDeletePlace.removeEventListener('click', submitDeletePlace);
 }
 // Неактивная кнопка
 export const buttonOff = (button, inactiveStyle) => {

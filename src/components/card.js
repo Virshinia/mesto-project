@@ -4,14 +4,19 @@ import {submitDeletePlace} from "./index.js"
 import {config, deleteLike, putLike} from './api.js'
 import {openBigPhotoPopup} from './modal.js'
 
+import {data} from "autoprefixer";
+
 //Переменные для загрузки и добавления локаций
 const locationTemplate = document.querySelector('#location-template').content,
   cardsContainer = document.querySelector('.locations');
 
+//Переменная для карточки для удаления
+export let cardForDeletion = null;
 //Отрисовка карточки с локацией на странице
 export function renderLocation (name, link, likes, ownerId, cardId) {
   cardsContainer.prepend(createLocation(name, link, likes, ownerId, cardId));
 }
+
 // Проверка моего Id
  function isMine (id) {
   return id === config.myId;
@@ -26,6 +31,7 @@ function createLocation (name, link, likes, ownerId, cardId) {
   const iconLike = locationElement.querySelector('.location__like-icon');
   locationPhoto.src = link;
   locationPhoto.setAttribute('alt', name);
+  locationElement.setAttribute('id', cardId);
   locationPhoto.addEventListener('click',() => openBigPhotoPopup({ name, link }));
   locationElement.querySelector('.location__title').textContent = name;
   likesCounter.textContent = likes.length;
@@ -36,7 +42,7 @@ function createLocation (name, link, likes, ownerId, cardId) {
   })
   iconLike.addEventListener('click', () => setEventListenerIconLike (iconLike, cardId, likesCounter))
   if (isMine (ownerId)) {
-    trashBin.addEventListener('click', () => openPopupDeleteLocation (cardId, locationElement));
+    trashBin.addEventListener('click', () => openPopupDeleteLocation (cardId));
   } else {
     trashBin.remove();
   }
@@ -65,8 +71,9 @@ function setEventListenerIconLike (iconLike, cardId, likesCounter) {
       })
   }}
 
-//Удаление карточки с локацией
-function openPopupDeleteLocation (cardId, currentCard) {
+//Открыть попап карточки с локацией
+function openPopupDeleteLocation (cardId) {
   openPopup(popupDeletePlace);
-  popupContainerDeletePlace.addEventListener('click',(evt) => submitDeletePlace (evt, cardId, currentCard));
+  popupContainerDeletePlace.addEventListener('click', submitDeletePlace);
+  cardForDeletion = cardId
 }

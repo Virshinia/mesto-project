@@ -17,7 +17,7 @@ import {
 } from './modal.js';
 import {openPopup, closePopup, buttonOff} from './utils.js';
 import {enableValidation} from './validate.js';
-import {renderLocation} from './card.js';
+import {cardForDeletion, renderLocation} from './card.js';
 import {
   config,
   getInitialCards,
@@ -34,52 +34,62 @@ import {profileName, profileDescription, profileAvatar, buttonEdit, buttonAdd, b
 // Сохранение изменений в профиле
 function submitEditForm (evt) {
   evt.preventDefault();
-  showLoading(evt.submitter);
+  showLoading(true, evt.submitter);
   submitNewProfileInfo (inputName.value, inputDescription.value)
     .then (info => {
       profileName.textContent = info.name;
-      profileDescription.textContent = info.about
+      profileDescription.textContent = info.about;
+      closePopup (popupEdit);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      showLoading(false, evt.submitter)
     });
-  closePopup (popupEdit);
 }
 
 // Сохранение данных локации
 function submitAddForm (evt) {
   evt.preventDefault();
-  showLoading(evt.submitter);
+  showLoading(true, evt.submitter);
   postNewCard(inputNameOfPlace.value, inputLinkImg.value)
     .then (card => {
       renderLocation(card.name, card.link, card.likes, card.owner._id, card._id)
+      closePopup (popupAdd);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      showLoading(false, evt.submitter)
     });
-  closePopup (popupAdd);
-  buttonOff (evt.target.querySelector('.popup__submit-button'), 'popup__submit-button_inactive');
+
+  buttonOff (evt.submitter, 'popup__submit-button_inactive');
 }
 
 function submitChangePhoto (evt) {
   evt.preventDefault();
-  showLoading(evt.submitter);
+  showLoading(true, evt.submitter);
   submitNewAvatar (inputLinkAvatar.value)
     .then (link => {
-      profileAvatar.src = link.avatar
+      profileAvatar.src = link.avatar;
+      closePopup(popupChangeAvatar);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      showLoading(false, evt.submitter)
     });
-  closePopup(popupChangeAvatar);
 }
 
-export function submitDeletePlace (evt, cardId, currentCard) {
+export function submitDeletePlace (evt) {
   evt.preventDefault();
-  console.log(cardId);
-  deleteMyCard (cardId)
+  const cardTemplateForDeletion = document.getElementById(cardForDeletion);
+  deleteMyCard (cardForDeletion)
     .then (() => {
-        currentCard.remove();
+        cardTemplateForDeletion.remove();
         closePopup(popupDeletePlace);
       }
       )
@@ -133,8 +143,10 @@ Promise.all([getInitialCards(), getProfileInfo()])
     cards.reverse().forEach((card) =>
       renderLocation(card.name, card.link, card.likes, card.owner._id, card._id),
     )
-  }
-)
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 //Добавление слушателей на формы
 popupContainerEditForm.addEventListener('submit', submitEditForm);

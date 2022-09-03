@@ -22,9 +22,6 @@ export const getInitialCards = () => {
     headers: config.headers
   })
     .then(res => checkRes(res))
-    .catch((err) => {
-      console.log(err);
-    });
 }
 
 // Получить информацию о профиле с сервера
@@ -33,9 +30,6 @@ export const getProfileInfo = () => {
     headers: config.headers
   })
     .then(res => checkRes(res))
-    .catch((err) => {
-      console.log(err);
-    });
 }
 
 // Изменить информацию о профиле на сервере
