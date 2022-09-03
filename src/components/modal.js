@@ -35,8 +35,12 @@ export const
   popupContainerDeletePlace = document.querySelector('[name="delete-place"]');
 
 //Изменение текста кнопки при загрузке
-export function showLoading (button) {
-  button.textContent = 'Сохранение...'
+export function showLoading (status, button) {
+  if (status) {
+    button.textContent = 'Сохранение...'
+  } else {
+    button.textContent = 'Сохранить'
+  }
 }
 
 //Создание и открытие модального окна с фото
