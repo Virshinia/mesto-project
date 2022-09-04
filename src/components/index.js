@@ -13,7 +13,7 @@ import {
   inputLinkImg,
   inputLinkAvatar,
   popupDeletePlace,
-  showLoading
+  showLoading, popupContainerDeletePlace
 } from './modal.js';
 import {openPopup, closePopup, buttonOff} from './utils.js';
 import {enableValidation} from './validate.js';
@@ -152,6 +152,7 @@ Promise.all([getInitialCards(), getProfileInfo()])
 popupContainerEditForm.addEventListener('submit', submitEditForm);
 popupContainerAddForm.addEventListener('submit', submitAddForm);
 popupContainerChangeAvatarForm.addEventListener('submit', submitChangePhoto);
+popupContainerDeletePlace.addEventListener('click', submitDeletePlace);
 
 
 //Вызов валидации с настройками
