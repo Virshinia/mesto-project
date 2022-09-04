@@ -74,6 +74,5 @@ function setEventListenerIconLike (iconLike, cardId, likesCounter) {
 //Открыть попап карточки с локацией
 function openPopupDeleteLocation (cardId) {
   openPopup(popupDeletePlace);
-  popupContainerDeletePlace.addEventListener('click', submitDeletePlace);
   cardForDeletion = cardId
 }
