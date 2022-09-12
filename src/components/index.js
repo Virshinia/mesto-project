@@ -57,6 +57,7 @@ function submitAddForm (evt) {
     .then (card => {
       renderLocation(card.name, card.link, card.likes, card.owner._id, card._id)
       closePopup (popupAdd);
+      popupContainerAddForm.reset();
     })
     .catch((err) => {
       console.log(err);
@@ -120,7 +121,6 @@ popups.forEach((popup) => {
 
 //События на кнопках "редактировать", "добавить", "изменить фото"
 buttonAdd.addEventListener('click', () => {
-  popupContainerAddForm.reset();
   openPopup(popupAdd);
 });
 
