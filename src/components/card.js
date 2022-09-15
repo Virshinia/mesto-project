@@ -1,10 +1,7 @@
 import { openPopup } from "../utils/utils.js";
-import { popupContainerDeletePlace, popupDeletePlace } from "./modal.js";
-import { submitDeletePlace } from "../pages/index.js";
-import { config, deleteLike, putLike } from "./api.js";
+import { popupDeletePlace } from "./modal.js";
+import { api } from "./api.js";
 import { openBigPhotoPopup } from "./modal.js";
-
-import { data } from "autoprefixer";
 
 //Переменные для загрузки и добавления локаций
 const locationTemplate = document.querySelector("#location-template").content,
@@ -19,7 +16,7 @@ export function renderLocation(name, link, likes, ownerId, cardId) {
 
 // Проверка моего Id
 function isMine(id) {
-  return id === config.myId;
+  return id === api._myId;
 }
 
 // Создание карточки с локацией
@@ -58,7 +55,7 @@ function createLocation(name, link, likes, ownerId, cardId) {
 // Установка слушателей на иконку лайка
 function setEventListenerIconLike(iconLike, cardId, likesCounter) {
   if (iconLike.classList.contains("location__like-icon_active")) {
-    deleteLike(cardId)
+    api.deleteLike(cardId)
       .then((card) => {
         iconLike.classList.remove("location__like-icon_active");
         likesCounter.textContent = card.likes.length;
@@ -67,7 +64,7 @@ function setEventListenerIconLike(iconLike, cardId, likesCounter) {
         console.log(err);
       });
   } else {
-    putLike(cardId)
+    api.putLike(cardId)
       .then((card) => {
         iconLike.classList.add("location__like-icon_active");
         likesCounter.textContent = card.likes.length;

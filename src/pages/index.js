@@ -19,15 +19,7 @@ import {
 import { openPopup, closePopup, buttonOff } from "../utils/utils.js";
 import { enableValidation } from "../components/validate.js";
 import { cardForDeletion, renderLocation } from "../components/card.js";
-import {
-  config,
-  getInitialCards,
-  getProfileInfo,
-  submitNewProfileInfo,
-  submitNewAvatar,
-  postNewCard,
-  deleteMyCard,
-} from "../components/api.js";
+import { api } from "../components/api.js";
 import {
   profileName,
   profileDescription,
@@ -42,7 +34,7 @@ import {
 function submitEditForm(evt) {
   evt.preventDefault();
   showLoading(true, evt.submitter);
-  submitNewProfileInfo(inputName.value, inputDescription.value)
+  api.submitNewProfileInfo(inputName.value, inputDescription.value)
     .then((info) => {
       profileName.textContent = info.name;
       profileDescription.textContent = info.about;
@@ -60,7 +52,7 @@ function submitEditForm(evt) {
 function submitAddForm(evt) {
   evt.preventDefault();
   showLoading(true, evt.submitter);
-  postNewCard(inputNameOfPlace.value, inputLinkImg.value)
+  api.postNewCard(inputNameOfPlace.value, inputLinkImg.value)
     .then((card) => {
       renderLocation(
         card.name,
@@ -85,7 +77,7 @@ function submitAddForm(evt) {
 function submitChangePhoto(evt) {
   evt.preventDefault();
   showLoading(true, evt.submitter);
-  submitNewAvatar(inputLinkAvatar.value)
+  api.submitNewAvatar(inputLinkAvatar.value)
     .then((link) => {
       profileAvatar.src = link.avatar;
       closePopup(popupChangeAvatar);
@@ -101,7 +93,7 @@ function submitChangePhoto(evt) {
 export function submitDeletePlace(evt) {
   evt.preventDefault();
   const cardTemplateForDeletion = document.getElementById(cardForDeletion);
-  deleteMyCard(cardForDeletion)
+  api.deleteMyCard(cardForDeletion)
     .then(() => {
       cardTemplateForDeletion.remove();
       closePopup(popupDeletePlace);
@@ -148,10 +140,10 @@ buttonChangeAvatar.addEventListener("click", () => {
 });
 
 // Получение данных о профиле и карточках с сервера
-Promise.all([getInitialCards(), getProfileInfo()])
+Promise.all([api.getInitialCards(), api.getProfileInfo()])
   .then(([cards, info]) => {
     renderProfileInfo(info.name, info.avatar, info.about);
-    config.myId = info._id;
+    api._myId = info._id;
     cards
       .reverse()
       .forEach((card) =>
