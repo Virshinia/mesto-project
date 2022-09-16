@@ -1,6 +1,6 @@
 import { openPopup } from "../utils/utils.js";
 import { popupDeletePlace } from "./modal.js";
-import { api } from "./api.js";
+import { api } from "./Api.js";
 import { openBigPhotoPopup } from "./modal.js";
 
 //Переменные для загрузки и добавления локаций
