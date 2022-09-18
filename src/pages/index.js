@@ -19,16 +19,14 @@ import {
 import { openPopup, closePopup, buttonOff } from "../utils/utils.js";
 import { enableValidation } from "../components/validate.js";
 import { cardForDeletion, renderLocation } from "../components/card.js";
-import { api } from "../components/api.js";
+import { api } from "../components/Api.js";
+import { myUserInfo }  from "../components/UserInfo.js";
 import {
-  profileName,
-  profileDescription,
-  profileAvatar,
   buttonEdit,
   buttonAdd,
-  buttonChangeAvatar,
-  renderProfileInfo,
-} from "../components/profile.js";
+  buttonChangeAvatar
+} from "../utils/constants.js";
+
 
 // Сохранение изменений в профиле
 function submitEditForm(evt) {
@@ -36,8 +34,7 @@ function submitEditForm(evt) {
   showLoading(true, evt.submitter);
   api.submitNewProfileInfo(inputName.value, inputDescription.value)
     .then((info) => {
-      profileName.textContent = info.name;
-      profileDescription.textContent = info.about;
+      myUserInfo.setUserInfo({name: info.name, description: info.about})
       closePopup(popupEdit);
     })
     .catch((err) => {
@@ -78,8 +75,8 @@ function submitChangePhoto(evt) {
   evt.preventDefault();
   showLoading(true, evt.submitter);
   api.submitNewAvatar(inputLinkAvatar.value)
-    .then((link) => {
-      profileAvatar.src = link.avatar;
+    .then((res) => {
+      myUserInfo.setUserInfo ({avatar: res.avatar});
       closePopup(popupChangeAvatar);
     })
     .catch((err) => {
@@ -129,8 +126,9 @@ buttonAdd.addEventListener("click", () => {
 });
 
 buttonEdit.addEventListener("click", () => {
-  inputName.value = profileName.textContent;
-  inputDescription.value = profileDescription.textContent;
+  const userData = myUserInfo.getUserInfo()
+  inputName.value = userData.name;
+  inputDescription.value = userData.description;
   openPopup(popupEdit);
 });
 
@@ -142,7 +140,11 @@ buttonChangeAvatar.addEventListener("click", () => {
 // Получение данных о профиле и карточках с сервера
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
   .then(([cards, info]) => {
-    renderProfileInfo(info.name, info.avatar, info.about);
+    myUserInfo.setUserInfo({
+      name:info.name,
+      description:info.about,
+      avatar: info.avatar
+    })
     api._myId = info._id;
     cards
       .reverse()
