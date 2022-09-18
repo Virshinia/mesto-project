@@ -1,6 +1,5 @@
 //Переменные для загрузки и добавления локаций
-const locationTemplate = document.querySelector("#location-template").content,
-  cardsContainer = document.querySelector(".locations");
+const cardsContainer = document.querySelector(".locations");
 
 //Отрисовка карточки с локацией на странице
 //СОГЛАСНО БРИФА НАДО БУДЕТ РЕАЛИЗОВАТЬ КАК МЕТОД КЛАССА SECTION
@@ -11,7 +10,8 @@ export function renderLocation(newCard) {
 /*класс карточки*/
 class Card {
   constructor(
-    locationTemplate,
+    LOCATION_TEMPLATE,
+    LOCATION_TEMPLATE_CLASS,
     name,
     link,
     likes,
@@ -22,7 +22,8 @@ class Card {
     openBigPhotoPopup,
     openPopupDeleteLocation
   ) {
-    this._locationTemplate = locationTemplate;
+    this._location_template = LOCATION_TEMPLATE;
+    this._location_template_class = LOCATION_TEMPLATE_CLASS;
     this._name = name;
     this._link = link;
     this._likes = likes;
@@ -35,8 +36,8 @@ class Card {
   }
 
   _getCard() {
-    this._card = locationTemplate
-      .querySelector(this._locationTemplate)
+    this._card = this._location_template
+      .querySelector(this._location_template_class)
       .cloneNode(true);
   }
 

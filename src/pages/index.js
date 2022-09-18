@@ -28,6 +28,7 @@ import {
   buttonEdit,
   buttonAdd,
   buttonChangeAvatar,
+  LOCATION_TEMPLATE_CLASS,
   LOCATION_TEMPLATE,
 } from "../utils/constants.js";
 
@@ -58,6 +59,7 @@ function submitAddForm(evt) {
     .then((card) => {
       const newCard = new Card(
         LOCATION_TEMPLATE,
+        LOCATION_TEMPLATE_CLASS,
         card.name,
         card.link,
         card.likes,
@@ -171,6 +173,7 @@ Promise.all([api.getInitialCards(), api.getProfileInfo()])
     cards.reverse().forEach((card) => {
       const newCard = new Card(
         LOCATION_TEMPLATE,
+        LOCATION_TEMPLATE_CLASS,
         card.name,
         card.link,
         card.likes,

@@ -13,5 +13,8 @@ export const buttonEdit = profileSelector.querySelector(
   buttonAdd = profileSelector.querySelector(".profile__button-add"),
   buttonChangeAvatar = profileSelector.querySelector(".profile__button-avatar");
 
-//селектор Template
-export const LOCATION_TEMPLATE = ".location";
+//селекторы Template разметки, класса шаблона карточки
+
+export const LOCATION_TEMPLATE_CLASS = ".location";
+export const LOCATION_TEMPLATE =
+  document.querySelector("#location-template").content;
