@@ -18,23 +18,23 @@ import {
 } from "../components/modal.js";
 import { openPopup, closePopup, buttonOff } from "../utils/utils.js";
 import { enableValidation } from "../components/validate.js";
-import { cardForDeletion, renderLocation } from "../components/card.js";
+import { cardForDeletion, renderLocation, Card } from "../components/card.js";
 import { api } from "../components/Api.js";
-import { myUserInfo }  from "../components/UserInfo.js";
+import { myUserInfo } from "../components/UserInfo.js";
 import {
   buttonEdit,
   buttonAdd,
-  buttonChangeAvatar
+  buttonChangeAvatar,
 } from "../utils/constants.js";
-
 
 // Сохранение изменений в профиле
 function submitEditForm(evt) {
   evt.preventDefault();
   showLoading(true, evt.submitter);
-  api.submitNewProfileInfo(inputName.value, inputDescription.value)
+  api
+    .submitNewProfileInfo(inputName.value, inputDescription.value)
     .then((info) => {
-      myUserInfo.setUserInfo({name: info.name, description: info.about})
+      myUserInfo.setUserInfo({ name: info.name, description: info.about });
       closePopup(popupEdit);
     })
     .catch((err) => {
@@ -49,15 +49,27 @@ function submitEditForm(evt) {
 function submitAddForm(evt) {
   evt.preventDefault();
   showLoading(true, evt.submitter);
-  api.postNewCard(inputNameOfPlace.value, inputLinkImg.value)
+  api
+    .postNewCard(inputNameOfPlace.value, inputLinkImg.value)
     .then((card) => {
-      renderLocation(
+      // renderLocation(
+      //   card.name,
+      //   card.link,
+      //   card.likes,
+      //   card.owner._id,
+      //   card._id,
+      //   setEventListenerIconLike
+      // );
+      const newCard = new Card(
+        LOCATION_TEMPLATE,
         card.name,
         card.link,
         card.likes,
         card.owner._id,
-        card._id
+        card._id,
+        setEventListenerIconLike
       );
+      renderLocation(newCard.create());
       closePopup(popupAdd);
       popupContainerAddForm.reset();
     })
@@ -74,9 +86,10 @@ function submitAddForm(evt) {
 function submitChangePhoto(evt) {
   evt.preventDefault();
   showLoading(true, evt.submitter);
-  api.submitNewAvatar(inputLinkAvatar.value)
+  api
+    .submitNewAvatar(inputLinkAvatar.value)
     .then((res) => {
-      myUserInfo.setUserInfo ({avatar: res.avatar});
+      myUserInfo.setUserInfo({ avatar: res.avatar });
       closePopup(popupChangeAvatar);
     })
     .catch((err) => {
@@ -90,7 +103,8 @@ function submitChangePhoto(evt) {
 export function submitDeletePlace(evt) {
   evt.preventDefault();
   const cardTemplateForDeletion = document.getElementById(cardForDeletion);
-  api.deleteMyCard(cardForDeletion)
+  api
+    .deleteMyCard(cardForDeletion)
     .then(() => {
       cardTemplateForDeletion.remove();
       closePopup(popupDeletePlace);
@@ -126,7 +140,7 @@ buttonAdd.addEventListener("click", () => {
 });
 
 buttonEdit.addEventListener("click", () => {
-  const userData = myUserInfo.getUserInfo()
+  const userData = myUserInfo.getUserInfo();
   inputName.value = userData.name;
   inputDescription.value = userData.description;
   openPopup(popupEdit);
@@ -137,30 +151,78 @@ buttonChangeAvatar.addEventListener("click", () => {
   openPopup(popupChangeAvatar);
 });
 
+//проблема при передачи данных из асинхронного запроса в синхронный код
+// let temporaryInfo;
+// api.getProfileInfo().then((info) => {
+//   temporaryInfo = info;
+//   console.log(temporaryInfo);
+// });
+// console.log(temporaryInfo);
+
 // Получение данных о профиле и карточках с сервера
+
+const LOCATION_TEMPLATE = ".location";
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
   .then(([cards, info]) => {
     myUserInfo.setUserInfo({
-      name:info.name,
-      description:info.about,
-      avatar: info.avatar
-    })
-    api._myId = info._id;
-    cards
-      .reverse()
-      .forEach((card) =>
-        renderLocation(
-          card.name,
-          card.link,
-          card.likes,
-          card.owner._id,
-          card._id
-        )
+      name: info.name,
+      description: info.about,
+      avatar: info.avatar,
+    });
+    api.myId = info._id;
+    // cards
+    //   .reverse()
+    //   .forEach((card) =>
+    //     renderLocation(
+    //       card.name,
+    //       card.link,
+    //       card.likes,
+    //       card.owner._id,
+    //       card._id,
+    //       setEventListenerIconLike
+    //     )
+    //   );
+    cards.reverse().forEach((card) => {
+      const newCard = new Card(
+        LOCATION_TEMPLATE,
+        card.name,
+        card.link,
+        card.likes,
+        card.owner._id,
+        card._id,
+        setEventListenerIconLike
       );
+      renderLocation(newCard.create());
+    });
   })
   .catch((err) => {
     console.log(err);
   });
+
+// Установка слушателей на иконку лайка
+function setEventListenerIconLike(iconLike, cardId, likesCounter) {
+  if (iconLike.classList.contains("location__like-icon_active")) {
+    api
+      .deleteLike(cardId)
+      .then((card) => {
+        iconLike.classList.remove("location__like-icon_active");
+        likesCounter.textContent = card.likes.length;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+    api
+      .putLike(cardId)
+      .then((card) => {
+        iconLike.classList.add("location__like-icon_active");
+        likesCounter.textContent = card.likes.length;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+}
 
 //Добавление слушателей на формы
 popupContainerEditForm.addEventListener("submit", submitEditForm);
