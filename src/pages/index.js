@@ -63,6 +63,7 @@ function submitAddForm(evt) {
         card.likes,
         card.owner._id,
         card._id,
+        api.myId,
         setEventListenerIconLike,
         openBigPhotoPopup,
         openPopupDeleteLocation

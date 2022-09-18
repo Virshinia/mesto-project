@@ -26,12 +26,12 @@ class Card {
     this._name = name;
     this._link = link;
     this._likes = likes;
-    this.ownerId = ownerId;
-    this.cardId = cardId;
-    this.myId = myId;
-    this.setEventListenerIconLike = setEventListenerIconLike;
-    this.openBigPhotoPopup = openBigPhotoPopup;
-    this.openPopupDeleteLocation = openPopupDeleteLocation;
+    this._ownerId = ownerId;
+    this._cardId = cardId;
+    this._myId = myId;
+    this._setEventListenerIconLike = setEventListenerIconLike;
+    this._openBigPhotoPopup = openBigPhotoPopup;
+    this._openPopupDeleteLocation = openPopupDeleteLocation;
   }
 
   _getCard() {
@@ -41,11 +41,11 @@ class Card {
   }
 
   _isMine(id) {
-    return id === this.myId;
+    return id === this._myId;
   }
 
   _openBigPhotoMethod() {
-    this.openBigPhotoPopup({ name: [this._name], link: [this._link] });
+    this._openBigPhotoPopup({ name: [this._name], link: [this._link] });
   }
 
   _activateLikeIcon(likes, iconLike) {
@@ -59,44 +59,44 @@ class Card {
   }
 
   _setListenerIconLikeMethod() {
-    this.setEventListenerIconLike(
-      this.iconLike,
-      this.cardId,
-      this.likesCounter
+    this._setEventListenerIconLike(
+      this._iconLike,
+      this._cardId,
+      this._likesCounter
     );
   }
 
   _setListenerForCardDelete() {
-    if (this._isMine(this.ownerId)) {
-      this.trashBin.addEventListener("click", () =>
-        this.openPopupDeleteLocation.bind(this)(this.cardId)
+    if (this._isMine(this._ownerId)) {
+      this._trashBin.addEventListener("click", () =>
+        this._openPopupDeleteLocation.bind(this)(this._cardId)
       );
     } else {
-      this.trashBin.remove();
+      this._trashBin.remove();
     }
   }
 
   create() {
     this._getCard();
     this._locationPhoto = this._card.querySelector(".location__photo");
-    this.trashBin = this._card.querySelector(".location__delete-icon");
-    this.likesCounter = this._card.querySelector(".location__like-counter");
-    this.iconLike = this._card.querySelector(".location__like-icon");
+    this._trashBin = this._card.querySelector(".location__delete-icon");
+    this._likesCounter = this._card.querySelector(".location__like-counter");
+    this._iconLike = this._card.querySelector(".location__like-icon");
 
     this._locationPhoto.src = this._link;
     this._locationPhoto.setAttribute("alt", this._name);
-    this._card.setAttribute("id", this.cardId);
+    this._card.setAttribute("id", this._cardId);
     this._card.querySelector(".location__title").textContent = this._name;
-    this.likesCounter.textContent = this._likes.length;
+    this._likesCounter.textContent = this._likes.length;
 
     this._locationPhoto.addEventListener(
       "click",
       this._openBigPhotoMethod.bind(this)
     );
 
-    this._activateLikeIcon(this._likes, this.iconLike);
+    this._activateLikeIcon(this._likes, this._iconLike);
 
-    this.iconLike.addEventListener(
+    this._iconLike.addEventListener(
       "click",
       this._setListenerIconLikeMethod.bind(this)
     );
