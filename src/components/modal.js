@@ -47,3 +47,12 @@ export function openBigPhotoPopup({ name, link }) {
   popupCaption.textContent = name;
   openPopup(popupGallery);
 }
+
+//Переменная для карточки для удаления
+export let cardForDeletion = null;
+
+//Открыть попап карточки с локацией
+export function openPopupDeleteLocation(cardId) {
+  openPopup(popupDeletePlace);
+  cardForDeletion = cardId;
+}
