@@ -23,14 +23,23 @@ import { openPopup, closePopup, buttonOff } from "../utils/utils.js";
 import { enableValidation } from "../components/validate.js";
 import { renderLocation, Card } from "../components/card.js";
 import { api } from "../components/Api.js";
-import { myUserInfo } from "../components/UserInfo.js";
+import {UserInfo} from "../components/UserInfo.js";
 import {
   buttonEdit,
   buttonAdd,
   buttonChangeAvatar,
   LOCATION_TEMPLATE_CLASS,
   LOCATION_TEMPLATE,
+  profileNameSelector,
+  profileDescriptionSelector,
+  profileAvatarSelector,
 } from "../utils/constants.js";
+
+const myUserInfo = new UserInfo(
+  profileNameSelector,
+  profileDescriptionSelector,
+  profileAvatarSelector
+);
 
 // Сохранение изменений в профиле
 function submitEditForm(evt) {
