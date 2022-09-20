@@ -15,16 +15,21 @@ import {
   popupDeletePlace,
   showLoading,
   popupContainerDeletePlace,
+  openBigPhotoPopup,
+  openPopupDeleteLocation,
+  cardForDeletion,
 } from "../components/modal.js";
 import { openPopup, closePopup, buttonOff } from "../utils/utils.js";
 import { enableValidation } from "../components/validate.js";
-import { cardForDeletion, renderLocation, Card } from "../components/card.js";
+import { renderLocation, Card } from "../components/card.js";
 import { api } from "../components/Api.js";
 import { myUserInfo } from "../components/UserInfo.js";
 import {
   buttonEdit,
   buttonAdd,
   buttonChangeAvatar,
+  LOCATION_TEMPLATE_CLASS,
+  LOCATION_TEMPLATE,
 } from "../utils/constants.js";
 
 // Сохранение изменений в профиле
@@ -52,22 +57,18 @@ function submitAddForm(evt) {
   api
     .postNewCard(inputNameOfPlace.value, inputLinkImg.value)
     .then((card) => {
-      // renderLocation(
-      //   card.name,
-      //   card.link,
-      //   card.likes,
-      //   card.owner._id,
-      //   card._id,
-      //   setEventListenerIconLike
-      // );
       const newCard = new Card(
         LOCATION_TEMPLATE,
+        LOCATION_TEMPLATE_CLASS,
         card.name,
         card.link,
         card.likes,
         card.owner._id,
         card._id,
-        setEventListenerIconLike
+        api.myId,
+        setEventListenerIconLike,
+        openBigPhotoPopup,
+        openPopupDeleteLocation
       );
       renderLocation(newCard.create());
       closePopup(popupAdd);
@@ -161,7 +162,6 @@ buttonChangeAvatar.addEventListener("click", () => {
 
 // Получение данных о профиле и карточках с сервера
 
-const LOCATION_TEMPLATE = ".location";
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
   .then(([cards, info]) => {
     myUserInfo.setUserInfo({
@@ -170,27 +170,19 @@ Promise.all([api.getInitialCards(), api.getProfileInfo()])
       avatar: info.avatar,
     });
     api.myId = info._id;
-    // cards
-    //   .reverse()
-    //   .forEach((card) =>
-    //     renderLocation(
-    //       card.name,
-    //       card.link,
-    //       card.likes,
-    //       card.owner._id,
-    //       card._id,
-    //       setEventListenerIconLike
-    //     )
-    //   );
     cards.reverse().forEach((card) => {
       const newCard = new Card(
         LOCATION_TEMPLATE,
+        LOCATION_TEMPLATE_CLASS,
         card.name,
         card.link,
         card.likes,
         card.owner._id,
         card._id,
-        setEventListenerIconLike
+        api.myId,
+        setEventListenerIconLike,
+        openBigPhotoPopup,
+        openPopupDeleteLocation
       );
       renderLocation(newCard.create());
     });
