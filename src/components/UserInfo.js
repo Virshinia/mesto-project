@@ -1,9 +1,3 @@
-import {
-  profileAvatarSelector,
-  profileDescriptionSelector,
-  profileNameSelector,
-} from "../utils/constants";
-
 class UserInfo {
   constructor(userName, userDescription, userAvatar) {
     this._userName = userName;
@@ -25,10 +19,6 @@ class UserInfo {
   }
 }
 
-const myUserInfo = new UserInfo(
-  profileNameSelector,
-  profileDescriptionSelector,
-  profileAvatarSelector
-);
 
-export { UserInfo, myUserInfo };
+
+export { UserInfo };
