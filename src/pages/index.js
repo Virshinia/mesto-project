@@ -19,21 +19,28 @@ import {
   openPopupDeleteLocation,
   cardForDeletion,
 } from "../components/modal.js";
-import { openPopup, closePopup, buttonOff } from "../utils/utils.js";
+import {
+  openPopup,
+  closePopup,
+  buttonOff,
+  renderLocation,
+} from "../utils/utils.js";
 import { enableValidation } from "../components/validate.js";
-import { renderLocation, Card } from "../components/card.js";
+import { Card } from "../components/card.js";
 import { api } from "../components/Api.js";
-import {UserInfo} from "../components/UserInfo.js";
+import { UserInfo } from "../components/UserInfo.js";
 import {
   buttonEdit,
   buttonAdd,
   buttonChangeAvatar,
   LOCATION_TEMPLATE_CLASS,
   LOCATION_TEMPLATE,
+  CARDS_CONTAINER_SELECTOR,
   profileNameSelector,
   profileDescriptionSelector,
   profileAvatarSelector,
 } from "../utils/constants.js";
+import { Section } from "../components/Section";
 
 const myUserInfo = new UserInfo(
   profileNameSelector,
@@ -66,20 +73,30 @@ function submitAddForm(evt) {
   api
     .postNewCard(inputNameOfPlace.value, inputLinkImg.value)
     .then((card) => {
-      const newCard = new Card(
-        LOCATION_TEMPLATE,
-        LOCATION_TEMPLATE_CLASS,
-        card.name,
-        card.link,
-        card.likes,
-        card.owner._id,
-        card._id,
-        api.myId,
-        setEventListenerIconLike,
-        openBigPhotoPopup,
-        openPopupDeleteLocation
+      const newCard = [];
+      newCard.push(
+        new Card(
+          LOCATION_TEMPLATE,
+          LOCATION_TEMPLATE_CLASS,
+          card.name,
+          card.link,
+          card.likes,
+          card.owner._id,
+          card._id,
+          api.myId,
+          setEventListenerIconLike,
+          openBigPhotoPopup,
+          openPopupDeleteLocation
+        )
       );
-      renderLocation(newCard.create());
+      const sectionWithNewCard = new Section(
+        {
+          items: newCard,
+          renderer: renderLocation,
+        },
+        CARDS_CONTAINER_SELECTOR
+      );
+      sectionWithNewCard.addOneElement(newCard[0].create());
       closePopup(popupAdd);
       popupContainerAddForm.reset();
     })
@@ -179,6 +196,7 @@ Promise.all([api.getInitialCards(), api.getProfileInfo()])
       avatar: info.avatar,
     });
     api.myId = info._id;
+    const initialCards = [];
     cards.reverse().forEach((card) => {
       const newCard = new Card(
         LOCATION_TEMPLATE,
@@ -193,8 +211,17 @@ Promise.all([api.getInitialCards(), api.getProfileInfo()])
         openBigPhotoPopup,
         openPopupDeleteLocation
       );
-      renderLocation(newCard.create());
+      initialCards.push(newCard.create());
+      // renderLocation(newCard.create());
     });
+    const sectionWithInitialCards = new Section(
+      {
+        items: initialCards,
+        renderer: renderLocation,
+      },
+      CARDS_CONTAINER_SELECTOR
+    );
+    sectionWithInitialCards.addArrayOfELements();
   })
   .catch((err) => {
     console.log(err);

@@ -18,3 +18,4 @@ export const buttonEdit = profileSelector.querySelector(
 export const LOCATION_TEMPLATE_CLASS = ".location";
 export const LOCATION_TEMPLATE =
   document.querySelector("#location-template").content;
+export const CARDS_CONTAINER_SELECTOR = ".locations";

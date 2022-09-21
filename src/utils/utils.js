@@ -22,3 +22,7 @@ export const buttonOn = (button, inactiveStyle) => {
   button.classList.remove(inactiveStyle);
   button.disabled = false;
 };
+
+export function renderLocation(newCard, container) {
+  container.prepend(newCard);
+}
