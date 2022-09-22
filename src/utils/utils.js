@@ -1,15 +1,16 @@
 // Неактивная кнопка
-export const buttonOff = (button, inactiveStyle) => {
+const buttonOff = (button, inactiveStyle) => {
   button.classList.add(inactiveStyle);
   button.disabled = true;
 };
 //Активная кнопка
-export const buttonOn = (button, inactiveStyle) => {
+const buttonOn = (button, inactiveStyle) => {
   button.classList.remove(inactiveStyle);
   button.disabled = false;
 };
 
-export function showLoading(status, button) {
+//Изменение кнопки при загрузке
+const showLoading = (status, button) => {
   if (status) {
     button.textContent = "Сохранение...";
   } else {
@@ -17,7 +18,4 @@ export function showLoading(status, button) {
   }
 }
 
-export function renderLocation(newCard, container) {
-  container.prepend(newCard);
-}
-
+export {buttonOn, buttonOff, showLoading}
