@@ -34,3 +34,4 @@ export const popupDeletePlaceSelector = document.querySelector(".popup_deletePla
 export const LOCATION_TEMPLATE_CLASS = ".location";
 export const LOCATION_TEMPLATE =
   document.querySelector("#location-template").content;
+export const CARDS_CONTAINER_SELECTOR = ".locations";

@@ -1,19 +1,19 @@
 import "./index.css";
-import { buttonOff, showLoading } from "../utils/utils.js";
+import { buttonOff, showLoading, renderLocation } from "../utils/utils.js";
 import { enableValidation } from "../components/validate.js";
-import { renderLocation, Card } from "../components/card.js";
+import { Card } from "../components/card.js";
 import { api } from "../components/Api.js";
 import { UserInfo } from "../components/UserInfo.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
 import { PopupForDeletion } from "../components/PopupForDeletion.js";
-
 import {
   buttonEdit,
   buttonAdd,
   buttonChangeAvatar,
   LOCATION_TEMPLATE_CLASS,
   LOCATION_TEMPLATE,
+  CARDS_CONTAINER_SELECTOR,
   profileNameSelector,
   profileDescriptionSelector,
   profileAvatarSelector,
@@ -25,6 +25,7 @@ import {
   inputDescription,
   popupDeletePlaceSelector
 } from "../utils/constants.js";
+import { Section } from "../components/Section";
 
 //
 const myUserInfo = new UserInfo(
@@ -69,21 +70,32 @@ function submitAddForm(evt, data) {
   api
     .postNewCard(data.nameOfPlace, data.linkImg)
     .then((card) => {
-      const newCard = new Card(
-        LOCATION_TEMPLATE,
-        LOCATION_TEMPLATE_CLASS,
-        card.name,
-        card.link,
-        card.likes,
-        card.owner._id,
-        card._id,
-        api.myId,
-        setEventListenerIconLike,
-        handleCardClick,
-        openPopupDeleteLocation
+      const newCard = [];
+      newCard.push(
+        new Card(
+          LOCATION_TEMPLATE,
+          LOCATION_TEMPLATE_CLASS,
+          card.name,
+          card.link,
+          card.likes,
+          card.owner._id,
+          card._id,
+          api.myId,
+          setEventListenerIconLike,
+          openBigPhotoPopup,
+          openPopupDeleteLocation
+        )
       );
-      renderLocation(newCard.create());
+      const sectionWithNewCard = new Section(
+        {
+          items: newCard,
+          renderer: renderLocation,
+        },
+        CARDS_CONTAINER_SELECTOR
+      );
+      sectionWithNewCard.addOneElement(newCard[0].create());
       popupAdd.close();
+
     })
     .catch((err) => {
       console.log(err);
@@ -161,6 +173,7 @@ Promise.all([api.getInitialCards(), api.getProfileInfo()])
       avatar: info.avatar,
     });
     api.myId = info._id;
+    const initialCards = [];
     cards.reverse().forEach((card) => {
       const newCard = new Card(
         LOCATION_TEMPLATE,
@@ -175,8 +188,16 @@ Promise.all([api.getInitialCards(), api.getProfileInfo()])
         handleCardClick,
         openPopupDeleteLocation
       );
-      renderLocation(newCard.create());
+      initialCards.push(newCard.create());
     });
+    const sectionWithInitialCards = new Section(
+      {
+        items: initialCards,
+        renderer: renderLocation,
+      },
+      CARDS_CONTAINER_SELECTOR
+    );
+    sectionWithInitialCards.addArrayOfELements();
   })
   .catch((err) => {
     console.log(err);

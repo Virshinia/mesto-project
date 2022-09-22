@@ -16,3 +16,8 @@ export function showLoading(status, button) {
     button.textContent = "Сохранить";
   }
 }
+
+export function renderLocation(newCard, container) {
+  container.prepend(newCard);
+}
+

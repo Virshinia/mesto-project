@@ -1,17 +1,14 @@
 //Переменные для загрузки и добавления локаций
-const cardsContainer = document.querySelector(".locations");
+// const cardsContainer = document.querySelector(".locations");
 
 //Отрисовка карточки с локацией на странице
 //СОГЛАСНО БРИФА НАДО БУДЕТ РЕАЛИЗОВАТЬ КАК МЕТОД КЛАССА SECTION
-export function renderLocation(newCard) {
-  cardsContainer.prepend(newCard);
-}
 
 /*класс карточки*/
 class Card {
   constructor(
-    LOCATION_TEMPLATE,
-    LOCATION_TEMPLATE_CLASS,
+    location_template,
+    location_template_class,
     name,
     link,
     likes,
@@ -22,8 +19,8 @@ class Card {
     handleCardClick,
     openPopupDeleteLocation
   ) {
-    this._location_template = LOCATION_TEMPLATE;
-    this._location_template_class = LOCATION_TEMPLATE_CLASS;
+    this._location_template = location_template;
+    this._location_template_class = location_template_class;
     this._name = name;
     this._link = link;
     this._likes = likes;
