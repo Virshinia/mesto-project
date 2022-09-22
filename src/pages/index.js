@@ -23,7 +23,7 @@ import {
   popupGallerySelector,
   inputName,
   inputDescription,
-  popupDeletePlaceSelector
+  popupDeletePlaceSelector,
 } from "../utils/constants.js";
 import { Section } from "../components/Section";
 
@@ -35,15 +35,21 @@ const myUserInfo = new UserInfo(
 );
 
 //Инициализация всех форм
-const popupAdd = new PopupWithForm (popupAddSelector, submitAddForm);
-const popupEdit = new PopupWithForm (popupEditSelector, submitEditForm);
-const popupChangeAvatar = new PopupWithForm (popupChangeAvatarSelector, submitChangePhoto);
+const popupAdd = new PopupWithForm(popupAddSelector, submitAddForm);
+const popupEdit = new PopupWithForm(popupEditSelector, submitEditForm);
+const popupChangeAvatar = new PopupWithForm(
+  popupChangeAvatarSelector,
+  submitChangePhoto
+);
 
 //Инициализация попапа с подтверждением удаления
-const popupDeleteConfirmation = new PopupForDeletion(popupDeletePlaceSelector, submitDeletePlace);
+const popupDeleteConfirmation = new PopupForDeletion(
+  popupDeletePlaceSelector,
+  submitDeletePlace
+);
 
 // Попап с картинкой
-const popupWithImage = new PopupWithImage (popupGallerySelector);
+const popupWithImage = new PopupWithImage(popupGallerySelector);
 
 // Сохранение изменений в профиле
 function submitEditForm(evt, data) {
@@ -82,7 +88,7 @@ function submitAddForm(evt, data) {
           card._id,
           api.myId,
           setEventListenerIconLike,
-          openBigPhotoPopup,
+          handleCardClick,
           openPopupDeleteLocation
         )
       );
@@ -95,7 +101,6 @@ function submitAddForm(evt, data) {
       );
       sectionWithNewCard.addOneElement(newCard[0].create());
       popupAdd.close();
-
     })
     .catch((err) => {
       console.log(err);
@@ -137,7 +142,6 @@ export function submitDeletePlace(evt, id) {
       console.log(err);
     });
 }
-
 
 //События на кнопках "редактировать", "добавить", "изменить фото"
 buttonAdd.addEventListener("click", () => {
@@ -203,14 +207,12 @@ Promise.all([api.getInitialCards(), api.getProfileInfo()])
     console.log(err);
   });
 
-
-
-function openPopupDeleteLocation (cardId) {
+function openPopupDeleteLocation(cardId) {
   popupDeleteConfirmation.open(cardId);
 }
 
-function handleCardClick ({name, link}) {
-  popupWithImage.open({name, link});
+function handleCardClick({ name, link }) {
+  popupWithImage.open({ name, link });
 }
 // Установка слушателей на иконку лайка
 function setEventListenerIconLike(iconLike, cardId, likesCounter) {
@@ -246,4 +248,3 @@ enableValidation({
   inactiveButtonClass: "popup__submit-button_inactive",
   inputErrorClass: "popup__input_type_error",
 });
-
