@@ -1,34 +1,12 @@
 import "./index.css";
-import {
-  popups,
-  popupEdit,
-  popupAdd,
-  popupContainerEditForm,
-  popupContainerAddForm,
-  popupChangeAvatar,
-  popupContainerChangeAvatarForm,
-  inputName,
-  inputDescription,
-  inputNameOfPlace,
-  inputLinkImg,
-  inputLinkAvatar,
-  popupDeletePlace,
-  showLoading,
-  popupContainerDeletePlace,
-  openBigPhotoPopup,
-  openPopupDeleteLocation,
-  cardForDeletion,
-} from "../components/modal.js";
-import {
-  openPopup,
-  closePopup,
-  buttonOff,
-  renderLocation,
-} from "../utils/utils.js";
+import { buttonOff, showLoading, renderLocation } from "../utils/utils.js";
 import { enableValidation } from "../components/validate.js";
 import { Card } from "../components/card.js";
 import { api } from "../components/Api.js";
 import { UserInfo } from "../components/UserInfo.js";
+import { PopupWithImage } from "../components/PopupWithImage.js";
+import { PopupWithForm } from "../components/PopupWithForm.js";
+import { PopupForDeletion } from "../components/PopupForDeletion.js";
 import {
   buttonEdit,
   buttonAdd,
@@ -39,24 +17,43 @@ import {
   profileNameSelector,
   profileDescriptionSelector,
   profileAvatarSelector,
+  popupEditSelector,
+  popupAddSelector,
+  popupChangeAvatarSelector,
+  popupGallerySelector,
+  inputName,
+  inputDescription,
+  popupDeletePlaceSelector
 } from "../utils/constants.js";
 import { Section } from "../components/Section";
 
+//
 const myUserInfo = new UserInfo(
   profileNameSelector,
   profileDescriptionSelector,
   profileAvatarSelector
 );
 
+//Инициализация всех форм
+const popupAdd = new PopupWithForm (popupAddSelector, submitAddForm);
+const popupEdit = new PopupWithForm (popupEditSelector, submitEditForm);
+const popupChangeAvatar = new PopupWithForm (popupChangeAvatarSelector, submitChangePhoto);
+
+//Инициализация попапа с подтверждением удаления
+const popupDeleteConfirmation = new PopupForDeletion(popupDeletePlaceSelector, submitDeletePlace);
+
+// Попап с картинкой
+const popupWithImage = new PopupWithImage (popupGallerySelector);
+
 // Сохранение изменений в профиле
-function submitEditForm(evt) {
+function submitEditForm(evt, data) {
   evt.preventDefault();
   showLoading(true, evt.submitter);
   api
-    .submitNewProfileInfo(inputName.value, inputDescription.value)
+    .submitNewProfileInfo(data.name, data.description)
     .then((info) => {
       myUserInfo.setUserInfo({ name: info.name, description: info.about });
-      closePopup(popupEdit);
+      popupEdit.close();
     })
     .catch((err) => {
       console.log(err);
@@ -67,11 +64,11 @@ function submitEditForm(evt) {
 }
 
 // Сохранение данных локации
-function submitAddForm(evt) {
+function submitAddForm(evt, data) {
   evt.preventDefault();
   showLoading(true, evt.submitter);
   api
-    .postNewCard(inputNameOfPlace.value, inputLinkImg.value)
+    .postNewCard(data.nameOfPlace, data.linkImg)
     .then((card) => {
       const newCard = [];
       newCard.push(
@@ -97,8 +94,8 @@ function submitAddForm(evt) {
         CARDS_CONTAINER_SELECTOR
       );
       sectionWithNewCard.addOneElement(newCard[0].create());
-      closePopup(popupAdd);
-      popupContainerAddForm.reset();
+      popupAdd.close();
+
     })
     .catch((err) => {
       console.log(err);
@@ -110,14 +107,14 @@ function submitAddForm(evt) {
   buttonOff(evt.submitter, "popup__submit-button_inactive");
 }
 
-function submitChangePhoto(evt) {
+function submitChangePhoto(evt, data) {
   evt.preventDefault();
   showLoading(true, evt.submitter);
   api
-    .submitNewAvatar(inputLinkAvatar.value)
+    .submitNewAvatar(data.linkAvatar)
     .then((res) => {
       myUserInfo.setUserInfo({ avatar: res.avatar });
-      closePopup(popupChangeAvatar);
+      popupChangeAvatar.close();
     })
     .catch((err) => {
       console.log(err);
@@ -127,55 +124,35 @@ function submitChangePhoto(evt) {
     });
 }
 
-export function submitDeletePlace(evt) {
+export function submitDeletePlace(evt, id) {
   evt.preventDefault();
-  const cardTemplateForDeletion = document.getElementById(cardForDeletion);
+  const cardTemplateForDeletion = document.getElementById(id);
   api
-    .deleteMyCard(cardForDeletion)
+    .deleteMyCard(id)
     .then(() => {
       cardTemplateForDeletion.remove();
-      closePopup(popupDeletePlace);
+      popupDeleteConfirmation.close();
     })
     .catch((err) => {
       console.log(err);
     });
 }
 
-// Закрытие popup по esc
-export function closeByEscape(evt) {
-  if (evt.key === "Escape") {
-    const openedPopup = document.querySelector(".popup_opened");
-    closePopup(openedPopup);
-  }
-}
-
-// Закрытие popup по overlay и по крестику
-popups.forEach((popup) => {
-  popup.addEventListener("mousedown", (evt) => {
-    if (evt.target.classList.contains("popup_opened")) {
-      closePopup(popup);
-    }
-    if (evt.target.classList.contains("popup__close-button")) {
-      closePopup(popup);
-    }
-  });
-});
 
 //События на кнопках "редактировать", "добавить", "изменить фото"
 buttonAdd.addEventListener("click", () => {
-  openPopup(popupAdd);
+  popupAdd.open();
 });
 
 buttonEdit.addEventListener("click", () => {
   const userData = myUserInfo.getUserInfo();
   inputName.value = userData.name;
   inputDescription.value = userData.description;
-  openPopup(popupEdit);
+  popupEdit.open();
 });
 
 buttonChangeAvatar.addEventListener("click", () => {
-  popupContainerChangeAvatarForm.reset();
-  openPopup(popupChangeAvatar);
+  popupChangeAvatar.open();
 });
 
 //проблема при передачи данных из асинхронного запроса в синхронный код
@@ -208,7 +185,7 @@ Promise.all([api.getInitialCards(), api.getProfileInfo()])
         card._id,
         api.myId,
         setEventListenerIconLike,
-        openBigPhotoPopup,
+        handleCardClick,
         openPopupDeleteLocation
       );
       initialCards.push(newCard.create());
@@ -226,6 +203,15 @@ Promise.all([api.getInitialCards(), api.getProfileInfo()])
     console.log(err);
   });
 
+
+
+function openPopupDeleteLocation (cardId) {
+  popupDeleteConfirmation.open(cardId);
+}
+
+function handleCardClick ({name, link}) {
+  popupWithImage.open({name, link});
+}
 // Установка слушателей на иконку лайка
 function setEventListenerIconLike(iconLike, cardId, likesCounter) {
   if (iconLike.classList.contains("location__like-icon_active")) {
@@ -251,12 +237,6 @@ function setEventListenerIconLike(iconLike, cardId, likesCounter) {
   }
 }
 
-//Добавление слушателей на формы
-popupContainerEditForm.addEventListener("submit", submitEditForm);
-popupContainerAddForm.addEventListener("submit", submitAddForm);
-popupContainerChangeAvatarForm.addEventListener("submit", submitChangePhoto);
-popupContainerDeletePlace.addEventListener("click", submitDeletePlace);
-
 //Вызов валидации с настройками
 enableValidation({
   formSelector: ".popup__container",
@@ -266,3 +246,4 @@ enableValidation({
   inactiveButtonClass: "popup__submit-button_inactive",
   inputErrorClass: "popup__input_type_error",
 });
+

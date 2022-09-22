@@ -16,7 +16,7 @@ class Card {
     cardId,
     myId,
     setEventListenerIconLike,
-    openBigPhotoPopup,
+    handleCardClick,
     openPopupDeleteLocation
   ) {
     this._location_template = location_template;
@@ -28,7 +28,7 @@ class Card {
     this._cardId = cardId;
     this._myId = myId;
     this._setEventListenerIconLike = setEventListenerIconLike;
-    this._openBigPhotoPopup = openBigPhotoPopup;
+    this._openBigPhotoPopup = handleCardClick;
     this._openPopupDeleteLocation = openPopupDeleteLocation;
   }
 
@@ -66,13 +66,14 @@ class Card {
 
   _setListenerForCardDelete() {
     if (this._isMine(this._ownerId)) {
-      this._trashBin.addEventListener("click", () =>
-        this._openPopupDeleteLocation.bind(this)(this._cardId)
-      );
+      this._trashBin.addEventListener("click", () => {
+        this._openPopupDeleteLocation(this._cardId)
+      });
     } else {
       this._trashBin.remove();
     }
   }
+
 
   create() {
     this._getCard();
@@ -103,6 +104,8 @@ class Card {
 
     return this._card;
   }
+
+
 }
 
 export { Card };

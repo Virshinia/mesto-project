@@ -20,3 +20,4 @@ export function showLoading(status, button) {
 export function renderLocation(newCard, container) {
   container.prepend(newCard);
 }
+
