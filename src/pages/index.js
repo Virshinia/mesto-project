@@ -212,7 +212,6 @@ Promise.all([api.getInitialCards(), api.getProfileInfo()])
         openPopupDeleteLocation
       );
       initialCards.push(newCard.create());
-      // renderLocation(newCard.create());
     });
     const sectionWithInitialCards = new Section(
       {
