@@ -1,7 +1,7 @@
 import "./index.css";
-import { buttonOff, showLoading, renderLocation } from "../utils/utils.js";
+import { buttonOff, showLoading } from "../utils/utils.js";
 import { enableValidation } from "../components/validate.js";
-import { Card } from "../components/card.js";
+import { Card } from "../components/Card.js";
 import { api } from "../components/Api.js";
 import { UserInfo } from "../components/UserInfo.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
@@ -76,30 +76,14 @@ function submitAddForm(evt, data) {
   api
     .postNewCard(data.nameOfPlace, data.linkImg)
     .then((card) => {
-      const newCard = [];
-      newCard.push(
-        new Card(
-          LOCATION_TEMPLATE,
-          LOCATION_TEMPLATE_CLASS,
-          card.name,
-          card.link,
-          card.likes,
-          card.owner._id,
-          card._id,
-          api.myId,
-          setEventListenerIconLike,
-          handleCardClick,
-          openPopupDeleteLocation
-        )
-      );
       const sectionWithNewCard = new Section(
         {
-          items: newCard,
+          items: card,
           renderer: renderLocation,
         },
         CARDS_CONTAINER_SELECTOR
       );
-      sectionWithNewCard.addOneElement(newCard[0].create());
+      sectionWithNewCard.addOneElement(card);
       popupAdd.close();
     })
     .catch((err) => {
@@ -159,13 +143,6 @@ buttonChangeAvatar.addEventListener("click", () => {
   popupChangeAvatar.open();
 });
 
-//проблема при передачи данных из асинхронного запроса в синхронный код
-// let temporaryInfo;
-// api.getProfileInfo().then((info) => {
-//   temporaryInfo = info;
-//   console.log(temporaryInfo);
-// });
-// console.log(temporaryInfo);
 
 // Получение данных о профиле и карточках с сервера
 
@@ -177,31 +154,16 @@ Promise.all([api.getInitialCards(), api.getProfileInfo()])
       avatar: info.avatar,
     });
     api.myId = info._id;
-    const initialCards = [];
-    cards.reverse().forEach((card) => {
-      const newCard = new Card(
-        LOCATION_TEMPLATE,
-        LOCATION_TEMPLATE_CLASS,
-        card.name,
-        card.link,
-        card.likes,
-        card.owner._id,
-        card._id,
-        api.myId,
-        setEventListenerIconLike,
-        handleCardClick,
-        openPopupDeleteLocation
-      );
-      initialCards.push(newCard.create());
-    });
+    cards = cards.reverse();
+
     const sectionWithInitialCards = new Section(
       {
-        items: initialCards,
+        items: cards,
         renderer: renderLocation,
       },
       CARDS_CONTAINER_SELECTOR
     );
-    sectionWithInitialCards.addArrayOfELements();
+    sectionWithInitialCards.addArrayOfElements();
   })
   .catch((err) => {
     console.log(err);
@@ -237,6 +199,23 @@ function setEventListenerIconLike(iconLike, cardId, likesCounter) {
         console.log(err);
       });
   }
+}
+
+function renderLocation(card, container) {
+  const newCard = new Card(
+    LOCATION_TEMPLATE,
+    LOCATION_TEMPLATE_CLASS,
+    card.name,
+    card.link,
+    card.likes,
+    card.owner._id,
+    card._id,
+    api.myId,
+    setEventListenerIconLike,
+    handleCardClick,
+    openPopupDeleteLocation);
+
+  container.prepend(newCard.create());
 }
 
 //Вызов валидации с настройками

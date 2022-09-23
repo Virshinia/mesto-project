@@ -1,9 +1,3 @@
-//Переменные для загрузки и добавления локаций
-// const cardsContainer = document.querySelector(".locations");
-
-//Отрисовка карточки с локацией на странице
-//СОГЛАСНО БРИФА НАДО БУДЕТ РЕАЛИЗОВАТЬ КАК МЕТОД КЛАССА SECTION
-
 /*класс карточки*/
 class Card {
   constructor(
