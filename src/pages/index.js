@@ -128,17 +128,36 @@ export function submitDeletePlace(evt, id) {
     });
 }
 
+const submitCardForm = document
+  .querySelector(".popup_addPlace")
+  .querySelector(".popup__container");
+const submitCardFormValidate = new FormValidator(
+  VALIDATION_SETTINGS,
+  submitCardForm
+);
+submitCardFormValidate.enableValidation();
+
+const editProfileForm = document
+  .querySelector(".popup_edit")
+  .querySelector(".popup__container");
+const editProfileFormValidate = new FormValidator(
+  VALIDATION_SETTINGS,
+  editProfileForm
+);
+editProfileFormValidate.enableValidation();
+
+const changeAvatarForm = document
+  .querySelector(".popup_changeAvatar")
+  .querySelector(".popup__container");
+const changeAvatarFormValidate = new FormValidator(
+  VALIDATION_SETTINGS,
+  changeAvatarForm
+);
+changeAvatarFormValidate.enableValidation();
+
 //События на кнопках "редактировать", "добавить", "изменить фото"
 buttonAdd.addEventListener("click", () => {
   popupAdd.open();
-  const formToValidate = document
-    .querySelector(".popup_addPlace")
-    .querySelector(".popup__container");
-  const submitCardFormValidate = new FormValidator(
-    VALIDATION_SETTINGS,
-    formToValidate
-  );
-  submitCardFormValidate.enableValidation();
 });
 
 buttonEdit.addEventListener("click", () => {
@@ -146,28 +165,10 @@ buttonEdit.addEventListener("click", () => {
   inputName.value = userData.name;
   inputDescription.value = userData.description;
   popupEdit.open();
-  const formToValidate = document
-    .querySelector(".popup_edit")
-    .querySelector(".popup__container");
-  console.log(formToValidate);
-  const editProfileFormValidate = new FormValidator(
-    VALIDATION_SETTINGS,
-    formToValidate
-  );
-  editProfileFormValidate.enableValidation();
 });
 
 buttonChangeAvatar.addEventListener("click", () => {
   popupChangeAvatar.open();
-  const formToValidate = document
-    .querySelector(".popup_changeAvatar")
-    .querySelector(".popup__container");
-  console.log(formToValidate);
-  const changeAvatarFormValidate = new FormValidator(
-    VALIDATION_SETTINGS,
-    formToValidate
-  );
-  changeAvatarFormValidate.enableValidation();
 });
 
 // Получение данных о профиле и карточках с сервера
