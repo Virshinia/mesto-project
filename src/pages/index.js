@@ -1,6 +1,5 @@
 import "./index.css";
 import { buttonOff, showLoading } from "../utils/utils.js";
-import { enableValidation } from "../components/validate.js";
 import { Card } from "../components/Card.js";
 import { api } from "../components/Api.js";
 import { UserInfo } from "../components/UserInfo.js";
@@ -14,6 +13,7 @@ import {
   LOCATION_TEMPLATE_CLASS,
   LOCATION_TEMPLATE,
   CARDS_CONTAINER_SELECTOR,
+  VALIDATION_SETTINGS,
   profileNameSelector,
   profileDescriptionSelector,
   profileAvatarSelector,
@@ -26,6 +26,7 @@ import {
   popupDeletePlaceSelector,
 } from "../utils/constants.js";
 import { Section } from "../components/Section";
+import { FormValidator } from "../components/FormValidator.js";
 
 //
 const myUserInfo = new UserInfo(
@@ -130,6 +131,14 @@ export function submitDeletePlace(evt, id) {
 //События на кнопках "редактировать", "добавить", "изменить фото"
 buttonAdd.addEventListener("click", () => {
   popupAdd.open();
+  const formToValidate = document
+    .querySelector(".popup_addPlace")
+    .querySelector(".popup__container");
+  const submitCardFormValidate = new FormValidator(
+    VALIDATION_SETTINGS,
+    formToValidate
+  );
+  submitCardFormValidate.enableValidation();
 });
 
 buttonEdit.addEventListener("click", () => {
@@ -137,12 +146,29 @@ buttonEdit.addEventListener("click", () => {
   inputName.value = userData.name;
   inputDescription.value = userData.description;
   popupEdit.open();
+  const formToValidate = document
+    .querySelector(".popup_edit")
+    .querySelector(".popup__container");
+  console.log(formToValidate);
+  const editProfileFormValidate = new FormValidator(
+    VALIDATION_SETTINGS,
+    formToValidate
+  );
+  editProfileFormValidate.enableValidation();
 });
 
 buttonChangeAvatar.addEventListener("click", () => {
   popupChangeAvatar.open();
+  const formToValidate = document
+    .querySelector(".popup_changeAvatar")
+    .querySelector(".popup__container");
+  console.log(formToValidate);
+  const changeAvatarFormValidate = new FormValidator(
+    VALIDATION_SETTINGS,
+    formToValidate
+  );
+  changeAvatarFormValidate.enableValidation();
 });
-
 
 // Получение данных о профиле и карточках с сервера
 
@@ -176,7 +202,7 @@ function openPopupDeleteLocation(cardId) {
 function handleCardClick({ name, link }) {
   popupWithImage.open({ name, link });
 }
-// Установка слушателей на иконку лайка
+
 function setEventListenerIconLike(iconLike, cardId, likesCounter) {
   if (iconLike.classList.contains("location__like-icon_active")) {
     api
@@ -213,17 +239,8 @@ function renderLocation(card, container) {
     api.myId,
     setEventListenerIconLike,
     handleCardClick,
-    openPopupDeleteLocation);
+    openPopupDeleteLocation
+  );
 
   container.prepend(newCard.create());
 }
-
-//Вызов валидации с настройками
-enableValidation({
-  formSelector: ".popup__container",
-  fieldSetSelector: ".popup__input-container",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__submit-button",
-  inactiveButtonClass: "popup__submit-button_inactive",
-  inputErrorClass: "popup__input_type_error",
-});
