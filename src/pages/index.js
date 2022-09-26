@@ -35,22 +35,23 @@ const myUserInfo = new UserInfo(
   profileAvatarSelector
 );
 
-//Инициализация всех форм
+//Инициализация всех форм и добавление слушателей
 const popupAdd = new PopupWithForm(popupAddSelector, submitAddForm);
+popupAdd.setEventListeners();
+
 const popupEdit = new PopupWithForm(popupEditSelector, submitEditForm);
-const popupChangeAvatar = new PopupWithForm(
-  popupChangeAvatarSelector,
-  submitChangePhoto
-);
+popupEdit.setEventListeners();
+
+const popupChangeAvatar = new PopupWithForm(popupChangeAvatarSelector, submitChangePhoto);
+popupChangeAvatar.setEventListeners()
 
 //Инициализация попапа с подтверждением удаления
-const popupDeleteConfirmation = new PopupForDeletion(
-  popupDeletePlaceSelector,
-  submitDeletePlace
-);
+const popupDeleteConfirmation = new PopupForDeletion(popupDeletePlaceSelector, submitDeletePlace);
+popupDeleteConfirmation.setEventListeners();
 
 // Попап с картинкой
 const popupWithImage = new PopupWithImage(popupGallerySelector);
+popupWithImage.setEventListeners();
 
 // Сохранение изменений в профиле
 function submitEditForm(evt, data) {
