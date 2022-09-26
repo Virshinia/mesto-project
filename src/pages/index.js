@@ -173,7 +173,6 @@ buttonChangeAvatar.addEventListener("click", () => {
 });
 
 // Получение данных о профиле и карточках с сервера
-
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
   .then(([cards, info]) => {
     myUserInfo.setUserInfo({
