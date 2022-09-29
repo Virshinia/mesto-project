@@ -40,13 +40,13 @@ class Card {
     this._openBigPhotoPopup({ name: [this._name], link: [this._link] });
   }
 
-  _activateLikeIcon(likes, iconLike) {
+  _activateLikeIcon() {
     if (
-      likes.some((like) => {
+      this._likes.some((like) => {
         return this._isMine(like._id);
       })
     ) {
-      iconLike.classList.add("location__like-icon_active");
+      this._iconLike.classList.add("location__like-icon_active");
     }
   }
 
@@ -61,13 +61,12 @@ class Card {
   _setListenerForCardDelete() {
     if (this._isMine(this._ownerId)) {
       this._trashBin.addEventListener("click", () => {
-        this._openPopupDeleteLocation(this._cardId)
+        this._openPopupDeleteLocation(this._cardId);
       });
     } else {
       this._trashBin.remove();
     }
   }
-
 
   create() {
     this._getCard();
@@ -87,7 +86,7 @@ class Card {
       this._openBigPhotoMethod.bind(this)
     );
 
-    this._activateLikeIcon(this._likes, this._iconLike);
+    this._activateLikeIcon();
 
     this._iconLike.addEventListener(
       "click",
@@ -98,8 +97,6 @@ class Card {
 
     return this._card;
   }
-
-
 }
 
 export { Card };
