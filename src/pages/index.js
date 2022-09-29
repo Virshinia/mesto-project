@@ -42,11 +42,17 @@ popupAdd.setEventListeners();
 const popupEdit = new PopupWithForm(popupEditSelector, submitEditForm);
 popupEdit.setEventListeners();
 
-const popupChangeAvatar = new PopupWithForm(popupChangeAvatarSelector, submitChangePhoto);
-popupChangeAvatar.setEventListeners()
+const popupChangeAvatar = new PopupWithForm(
+  popupChangeAvatarSelector,
+  submitChangePhoto
+);
+popupChangeAvatar.setEventListeners();
 
 //Инициализация попапа с подтверждением удаления
-const popupDeleteConfirmation = new PopupForDeletion(popupDeletePlaceSelector, submitDeletePlace);
+const popupDeleteConfirmation = new PopupForDeletion(
+  popupDeletePlaceSelector,
+  submitDeletePlace
+);
 popupDeleteConfirmation.setEventListeners();
 
 // Попап с картинкой
@@ -158,6 +164,7 @@ changeAvatarFormValidate.enableValidation();
 
 //События на кнопках "редактировать", "добавить", "изменить фото"
 buttonAdd.addEventListener("click", () => {
+  submitCardFormValidate.toggleButtonState();
   popupAdd.open();
 });
 
