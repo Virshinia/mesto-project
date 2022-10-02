@@ -32,6 +32,7 @@ export const LOCATION_TEMPLATE =
 export const CARDS_CONTAINER_SELECTOR = ".locations";
 
 export const VALIDATION_SETTINGS = {
+  formSelector: ".popup__container",
   inputSelector: ".popup__input",
   submitButtonSelector: ".popup__submit-button",
   inactiveButtonClass: "popup__submit-button_inactive",

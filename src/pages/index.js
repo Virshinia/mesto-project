@@ -105,42 +105,38 @@ export function submitDeletePlace(evt, id) {
     });
 }
 
-const submitCardForm = document.forms["add-place"];
-const submitCardFormValidate = new FormValidator(
-  VALIDATION_SETTINGS,
-  submitCardForm
-);
-submitCardFormValidate.enableValidation();
+const formValidators = {};
 
-const editProfileForm = document.forms["edit-profile"];
-const editProfileFormValidate = new FormValidator(
-  VALIDATION_SETTINGS,
-  editProfileForm
-);
-editProfileFormValidate.enableValidation();
+// Включение валидации
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(config, formElement);
 
-const changeAvatarForm = document.forms["change-avatar"];
-const changeAvatarFormValidate = new FormValidator(
-  VALIDATION_SETTINGS,
-  changeAvatarForm
-);
-changeAvatarFormValidate.enableValidation();
+    const formName = formElement.getAttribute("name");
+
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+};
+
+enableValidation(VALIDATION_SETTINGS);
 
 //События на кнопках "редактировать", "добавить", "изменить фото"
 buttonAdd.addEventListener("click", () => {
-  submitCardFormValidate.resetValidation();
+  formValidators["add-place"].resetValidation();
   popupAdd.open();
 });
 
 buttonEdit.addEventListener("click", () => {
   const userData = myUserInfo.getUserInfo();
-  editProfileFormValidate.resetValidation();
+  formValidators["edit-profile"].resetValidation();
   popupEdit.setInputValues(userData);
   popupEdit.open();
 });
 
 buttonChangeAvatar.addEventListener("click", () => {
-  changeAvatarFormValidate.resetValidation();
+  formValidators["change-avatar"].resetValidation();
   popupChangeAvatar.open();
 });
 
