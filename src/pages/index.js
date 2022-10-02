@@ -26,11 +26,7 @@ import { Section } from "../components/Section";
 import { FormValidator } from "../components/FormValidator.js";
 
 //
-const myUserInfo = new UserInfo(
-  profileName,
-  profileDescription,
-  profileAvatar
-);
+const myUserInfo = new UserInfo(profileName, profileDescription, profileAvatar);
 
 //Инициализация всех форм и добавление слушателей
 const popupAdd = new PopupWithForm(popupAddSelector, submitAddForm);
@@ -87,7 +83,6 @@ function submitAddForm(evt, data) {
     .catch((err) => {
       console.log(err);
     });
-
 }
 
 function submitChangePhoto(evt, data) {
@@ -146,17 +141,19 @@ changeAvatarFormValidate.enableValidation();
 
 //События на кнопках "редактировать", "добавить", "изменить фото"
 buttonAdd.addEventListener("click", () => {
-  submitCardFormValidate.toggleButtonState();
+  submitCardFormValidate.resetValidation();
   popupAdd.open();
 });
 
 buttonEdit.addEventListener("click", () => {
   const userData = myUserInfo.getUserInfo();
+  editProfileFormValidate.resetValidation();
   popupEdit.setInputValues(userData);
   popupEdit.open();
 });
 
 buttonChangeAvatar.addEventListener("click", () => {
+  changeAvatarFormValidate.resetValidation();
   popupChangeAvatar.open();
 });
 
