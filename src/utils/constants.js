@@ -16,9 +16,7 @@ export const popupAddSelector = ".popup_addPlace";
 export const popupChangeAvatarSelector = ".popup_changeAvatar";
 
 // Переменные для изменения данных профиля
-export const popupEditSelector = ".popup_edit",
-  inputName = document.querySelector("#name-input"),
-  inputDescription = document.querySelector("#description-input");
+export const popupEditSelector = ".popup_edit";
 
 // Селектор для попапа с большой картинкой
 export const popupGallerySelector = ".popup_gallery";

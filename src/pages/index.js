@@ -1,5 +1,4 @@
 import "./index.css";
-import { buttonOff, showLoading } from "../utils/utils.js";
 import { Card } from "../components/Card.js";
 import { api } from "../components/Api.js";
 import { UserInfo } from "../components/UserInfo.js";
@@ -21,8 +20,6 @@ import {
   popupAddSelector,
   popupChangeAvatarSelector,
   popupGallerySelector,
-  inputName,
-  inputDescription,
   popupDeletePlaceSelector,
 } from "../utils/constants.js";
 import { Section } from "../components/Section";
@@ -62,26 +59,20 @@ popupWithImage.setEventListeners();
 // Сохранение изменений в профиле
 function submitEditForm(evt, data) {
   evt.preventDefault();
-  showLoading(true, evt.submitter);
-  api
+  return api
     .submitNewProfileInfo(data.name, data.description)
     .then((info) => {
       myUserInfo.setUserInfo({ name: info.name, description: info.about });
-      popupEdit.close();
     })
     .catch((err) => {
       console.log(err);
-    })
-    .finally(() => {
-      showLoading(false, evt.submitter);
     });
 }
 
 // Сохранение данных локации
 function submitAddForm(evt, data) {
   evt.preventDefault();
-  showLoading(true, evt.submitter);
-  api
+  return api
     .postNewCard(data.nameOfPlace, data.linkImg)
     .then((card) => {
       const sectionWithNewCard = new Section(
@@ -92,22 +83,16 @@ function submitAddForm(evt, data) {
         CARDS_CONTAINER_SELECTOR
       );
       sectionWithNewCard.addOneElement(card);
-      popupAdd.close();
     })
     .catch((err) => {
       console.log(err);
-    })
-    .finally(() => {
-      showLoading(false, evt.submitter);
     });
 
-  buttonOff(evt.submitter, "popup__submit-button_inactive");
 }
 
 function submitChangePhoto(evt, data) {
   evt.preventDefault();
-  showLoading(true, evt.submitter);
-  api
+  return api
     .submitNewAvatar(data.linkAvatar)
     .then((res) => {
       myUserInfo.setUserInfo({ avatar: res.avatar });
@@ -115,9 +100,6 @@ function submitChangePhoto(evt, data) {
     })
     .catch((err) => {
       console.log(err);
-    })
-    .finally(() => {
-      showLoading(false, evt.submitter);
     });
 }
 
@@ -170,8 +152,7 @@ buttonAdd.addEventListener("click", () => {
 
 buttonEdit.addEventListener("click", () => {
   const userData = myUserInfo.getUserInfo();
-  inputName.value = userData.name;
-  inputDescription.value = userData.description;
+  popupEdit.setInputValues(userData);
   popupEdit.open();
 });
 
