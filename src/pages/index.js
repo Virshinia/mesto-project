@@ -71,14 +71,7 @@ function submitAddForm(evt, data) {
   return api
     .postNewCard(data.nameOfPlace, data.linkImg)
     .then((card) => {
-      const sectionWithNewCard = new Section(
-        {
-          items: card,
-          renderer: renderLocation,
-        },
-        CARDS_CONTAINER_SELECTOR
-      );
-      sectionWithNewCard.addOneElement(card);
+      sectionWithCards.addItem(card);
     })
     .catch((err) => {
       console.log(err);
@@ -157,6 +150,8 @@ buttonChangeAvatar.addEventListener("click", () => {
   popupChangeAvatar.open();
 });
 
+const sectionWithCards = new Section(renderLocation, CARDS_CONTAINER_SELECTOR);
+
 // Получение данных о профиле и карточках с сервера
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
   .then(([cards, info]) => {
@@ -168,14 +163,7 @@ Promise.all([api.getInitialCards(), api.getProfileInfo()])
     api.myId = info._id;
     cards = cards.reverse();
 
-    const sectionWithInitialCards = new Section(
-      {
-        items: cards,
-        renderer: renderLocation,
-      },
-      CARDS_CONTAINER_SELECTOR
-    );
-    sectionWithInitialCards.addArrayOfElements();
+    sectionWithCards.renderItems(cards);
   })
   .catch((err) => {
     console.log(err);
@@ -228,5 +216,5 @@ function renderLocation(card, container) {
     openPopupDeleteLocation
   );
 
-  container.prepend(newCard.create());
+  return newCard.create();
 }
