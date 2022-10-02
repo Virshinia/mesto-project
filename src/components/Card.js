@@ -9,11 +9,12 @@ class Card {
     ownerId,
     cardId,
     myId,
-    setEventListenerIconLike,
     handleCardClick,
-    openPopupDeleteLocation
+    openPopupDeleteLocation,
+    deleteLike,
+    putLike
   ) {
-    this.locationTemplate = locationTemplate;
+    this._locationTemplate = locationTemplate;
     this._locationTemplateClass = locationTemplateClass;
     this._name = name;
     this._link = link;
@@ -21,13 +22,14 @@ class Card {
     this._ownerId = ownerId;
     this._cardId = cardId;
     this._myId = myId;
-    this._setEventListenerIconLike = setEventListenerIconLike;
     this._openBigPhotoPopup = handleCardClick;
     this._openPopupDeleteLocation = openPopupDeleteLocation;
+    this._deleteLike = deleteLike;
+    this._putLike = putLike;
   }
 
   _getCard() {
-    this._card = this.locationTemplate
+    this._card = this._locationTemplate
       .querySelector(this._locationTemplateClass)
       .cloneNode(true);
   }
@@ -46,12 +48,12 @@ class Card {
     }
   }
 
-  _setListenerIconLikeMethod() {
-    this._setEventListenerIconLike(
-      this._iconLike,
-      this._cardId,
-      this._likesCounter
-    );
+  _setEventListenerIconLike() {
+    if (this._iconLike.classList.contains("location__like-icon_active")) {
+      this._deleteLike(this._cardId, this._iconLike, this._likesCounter);
+    } else {
+      this._putLike(this._cardId, this._iconLike, this._likesCounter);
+    }
   }
 
   _openBigPhotoMethod() {
@@ -76,7 +78,7 @@ class Card {
     this._setListenerForCardDelete();
     this._iconLike.addEventListener(
       "click",
-      this._setListenerIconLikeMethod.bind(this)
+      this._setEventListenerIconLike.bind(this)
     );
   }
 

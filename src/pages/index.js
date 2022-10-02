@@ -177,31 +177,31 @@ function handleCardClick({ name, link }) {
   popupWithImage.open({ name, link });
 }
 
-function setEventListenerIconLike(iconLike, cardId, likesCounter) {
-  if (iconLike.classList.contains("location__like-icon_active")) {
-    api
-      .deleteLike(cardId)
-      .then((card) => {
-        iconLike.classList.remove("location__like-icon_active");
-        likesCounter.textContent = card.likes.length;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  } else {
-    api
-      .putLike(cardId)
-      .then((card) => {
-        iconLike.classList.add("location__like-icon_active");
-        likesCounter.textContent = card.likes.length;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+function deleteLike(cardId, iconLike, likesCounter) {
+  api
+    .deleteLike(cardId)
+    .then((card) => {
+      iconLike.classList.remove("location__like-icon_active");
+      likesCounter.textContent = card.likes.length;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
-function renderLocation(card, container) {
+function putLike(cardId, iconLike, likesCounter) {
+  api
+    .putLike(cardId)
+    .then((card) => {
+      iconLike.classList.add("location__like-icon_active");
+      likesCounter.textContent = card.likes.length;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+function renderLocation(card) {
   const newCard = new Card(
     LOCATION_TEMPLATE,
     LOCATION_TEMPLATE_CLASS,
@@ -211,9 +211,10 @@ function renderLocation(card, container) {
     card.owner._id,
     card._id,
     api.myId,
-    setEventListenerIconLike,
     handleCardClick,
-    openPopupDeleteLocation
+    openPopupDeleteLocation,
+    deleteLike,
+    putLike
   );
 
   return newCard.create();
