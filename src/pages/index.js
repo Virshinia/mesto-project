@@ -14,9 +14,9 @@ import {
   LOCATION_TEMPLATE,
   CARDS_CONTAINER_SELECTOR,
   VALIDATION_SETTINGS,
-  profileNameSelector,
-  profileDescriptionSelector,
-  profileAvatarSelector,
+  profileName,
+  profileDescription,
+  profileAvatar,
   popupEditSelector,
   popupAddSelector,
   popupChangeAvatarSelector,
@@ -30,9 +30,9 @@ import { FormValidator } from "../components/FormValidator.js";
 
 //
 const myUserInfo = new UserInfo(
-  profileNameSelector,
-  profileDescriptionSelector,
-  profileAvatarSelector
+  profileName,
+  profileDescription,
+  profileAvatar
 );
 
 //Инициализация всех форм и добавление слушателей
