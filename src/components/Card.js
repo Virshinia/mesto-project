@@ -1,8 +1,8 @@
 /*класс карточки*/
 class Card {
   constructor(
-    location_template,
-    location_template_class,
+    locationTemplate,
+    locationTemplateClass,
     name,
     link,
     likes,
@@ -13,8 +13,8 @@ class Card {
     handleCardClick,
     openPopupDeleteLocation
   ) {
-    this._location_template = location_template;
-    this._location_template_class = location_template_class;
+    this.locationTemplate = locationTemplate;
+    this._locationTemplateClass = locationTemplateClass;
     this._name = name;
     this._link = link;
     this._likes = likes;
@@ -27,17 +27,13 @@ class Card {
   }
 
   _getCard() {
-    this._card = this._location_template
-      .querySelector(this._location_template_class)
+    this._card = this.locationTemplate
+      .querySelector(this._locationTemplateClass)
       .cloneNode(true);
   }
 
   _isMine(id) {
     return id === this._myId;
-  }
-
-  _openBigPhotoMethod() {
-    this._openBigPhotoPopup({ name: [this._name], link: [this._link] });
   }
 
   _activateLikeIcon() {
@@ -58,6 +54,10 @@ class Card {
     );
   }
 
+  _openBigPhotoMethod() {
+    this._openBigPhotoPopup({ name: [this._name], link: [this._link] });
+  }
+
   _setListenerForCardDelete() {
     if (this._isMine(this._ownerId)) {
       this._trashBin.addEventListener("click", () => {
@@ -66,6 +66,18 @@ class Card {
     } else {
       this._trashBin.remove();
     }
+  }
+
+  _setEventListeners() {
+    this._locationPhoto.addEventListener(
+      "click",
+      this._openBigPhotoMethod.bind(this)
+    );
+    this._setListenerForCardDelete();
+    this._iconLike.addEventListener(
+      "click",
+      this._setListenerIconLikeMethod.bind(this)
+    );
   }
 
   create() {
@@ -81,19 +93,9 @@ class Card {
     this._card.querySelector(".location__title").textContent = this._name;
     this._likesCounter.textContent = this._likes.length;
 
-    this._locationPhoto.addEventListener(
-      "click",
-      this._openBigPhotoMethod.bind(this)
-    );
-
     this._activateLikeIcon();
 
-    this._iconLike.addEventListener(
-      "click",
-      this._setListenerIconLikeMethod.bind(this)
-    );
-
-    this._setListenerForCardDelete();
+    this._setEventListeners();
 
     return this._card;
   }
