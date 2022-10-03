@@ -166,22 +166,22 @@ function handleCardClick({ name, link }) {
   popupWithImage.open({ name, link });
 }
 
-function deleteLike(cardId) {
+function deleteLike(card) {
   api
-    .deleteLike(cardId)
-    .then((card) => {
-      this.deleteLike(card);
+    .deleteLike(card.cardId)
+    .then((res) => {
+      card.deleteLike(res);
     })
     .catch((err) => {
       console.log(err);
     });
 }
 
-function putLike(cardId) {
+function putLike(card) {
   api
-    .putLike(cardId)
-    .then((card) => {
-      this.putLike(card);
+    .putLike(card.cardId)
+    .then((res) => {
+      card.putLike(res);
     })
     .catch((err) => {
       console.log(err);

@@ -20,7 +20,7 @@ class Card {
     this._link = link;
     this._likes = likes;
     this._ownerId = ownerId;
-    this._cardId = cardId;
+    this.cardId = cardId;
     this._myId = myId;
     this._openBigPhotoPopup = handleCardClick;
     this._openPopupDeleteLocation = openPopupDeleteLocation;
@@ -50,9 +50,9 @@ class Card {
 
   _handleLike() {
     if (this._iconLike.classList.contains("location__like-icon_active")) {
-      this._deleteLike(this._cardId);
+      this._deleteLike(this);
     } else {
-      this._putLike(this._cardId);
+      this._putLike(this);
     }
   }
 
@@ -73,7 +73,7 @@ class Card {
   _setListenerForCardDelete() {
     if (this._isMine(this._ownerId)) {
       this._trashBin.addEventListener("click", () => {
-        this._openPopupDeleteLocation(this._cardId);
+        this._openPopupDeleteLocation(this.cardId);
       });
     } else {
       this._trashBin.remove();
@@ -98,7 +98,7 @@ class Card {
 
     this._locationPhoto.src = this._link;
     this._locationPhoto.setAttribute("alt", this._name);
-    this._card.setAttribute("id", this._cardId);
+    this._card.setAttribute("id", this.cardId);
     this._card.querySelector(".location__title").textContent = this._name;
     this._likesCounter.textContent = this._likes.length;
 
