@@ -86,9 +86,7 @@ class Card {
       this._openBigPhotoMethod.bind(this)
     );
     this._setListenerForCardDelete();
-    this._iconLike.addEventListener("click", () => {
-      this._handleLike(this);
-    });
+    this._iconLike.addEventListener("click", this._handleLike.bind(this));
   }
 
   create() {
