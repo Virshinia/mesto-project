@@ -58,7 +58,7 @@ function submitEditForm(evt, data) {
   return api
     .submitNewProfileInfo(data.name, data.description)
     .then((info) => {
-      myUserInfo.setUserInfo({ name: info.name, description: info.about });
+      myUserInfo.setUserInfo(info);
     })
     .catch((err) => {
       console.log(err);
@@ -82,8 +82,8 @@ function submitChangePhoto(evt, data) {
   evt.preventDefault();
   return api
     .submitNewAvatar(data.linkAvatar)
-    .then((res) => {
-      myUserInfo.setUserInfo({ avatar: res.avatar });
+    .then((info) => {
+      myUserInfo.setUserInfo(info);
       popupChangeAvatar.close();
     })
     .catch((err) => {
