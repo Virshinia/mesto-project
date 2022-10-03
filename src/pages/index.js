@@ -151,7 +151,6 @@ Promise.all([api.getInitialCards(), api.getProfileInfo()])
       avatar: info.avatar,
     });
     api.myId = info._id;
-    cards = cards.reverse();
 
     sectionWithCards.renderItems(cards);
   })
@@ -167,24 +166,22 @@ function handleCardClick({ name, link }) {
   popupWithImage.open({ name, link });
 }
 
-function deleteLike(cardId, iconLike, likesCounter) {
+function deleteLike(cardId) {
   api
     .deleteLike(cardId)
     .then((card) => {
-      iconLike.classList.remove("location__like-icon_active");
-      likesCounter.textContent = card.likes.length;
+      this.deleteLike(card);
     })
     .catch((err) => {
       console.log(err);
     });
 }
 
-function putLike(cardId, iconLike, likesCounter) {
+function putLike(cardId) {
   api
     .putLike(cardId)
     .then((card) => {
-      iconLike.classList.add("location__like-icon_active");
-      likesCounter.textContent = card.likes.length;
+      this.putLike(card);
     })
     .catch((err) => {
       console.log(err);

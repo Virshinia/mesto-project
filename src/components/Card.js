@@ -48,12 +48,22 @@ class Card {
     }
   }
 
-  _setEventListenerIconLike() {
+  _handleLike() {
     if (this._iconLike.classList.contains("location__like-icon_active")) {
-      this._deleteLike(this._cardId, this._iconLike, this._likesCounter);
+      this._deleteLike(this._cardId);
     } else {
-      this._putLike(this._cardId, this._iconLike, this._likesCounter);
+      this._putLike(this._cardId);
     }
+  }
+
+  putLike(card) {
+    this._iconLike.classList.add("location__like-icon_active");
+    this._likesCounter.textContent = card.likes.length;
+  }
+
+  deleteLike(card) {
+    this._iconLike.classList.remove("location__like-icon_active");
+    this._likesCounter.textContent = card.likes.length;
   }
 
   _openBigPhotoMethod() {
@@ -76,10 +86,9 @@ class Card {
       this._openBigPhotoMethod.bind(this)
     );
     this._setListenerForCardDelete();
-    this._iconLike.addEventListener(
-      "click",
-      this._setEventListenerIconLike.bind(this)
-    );
+    this._iconLike.addEventListener("click", () => {
+      this._handleLike(this);
+    });
   }
 
   create() {
