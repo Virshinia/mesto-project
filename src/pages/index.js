@@ -145,11 +145,7 @@ const sectionWithCards = new Section(renderLocation, CARDS_CONTAINER_SELECTOR);
 // Получение данных о профиле и карточках с сервера
 Promise.all([api.getInitialCards(), api.getProfileInfo()])
   .then(([cards, info]) => {
-    myUserInfo.setUserInfo({
-      name: info.name,
-      description: info.about,
-      avatar: info.avatar,
-    });
+    myUserInfo.setUserInfo(info);
     api.myId = info._id;
 
     sectionWithCards.renderItems(cards);
